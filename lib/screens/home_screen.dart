@@ -40,9 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: [
               AppBar(
-                title: const Text('Gerenciar Equipamentos'),
-                backgroundColor: Colors.transparent,
-                elevation: 0,
+                title: const Text('Gerenciar itens'),
+                backgroundColor: const Color(0xFFF2D4AE),
               ),
               Expanded(
                 child:

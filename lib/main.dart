@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/equipment_provider.dart';
-import 'screens/home_screen.dart';
+import 'screens/main_screen.dart'; // Novo import
+import 'screens/onboarding_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -19,8 +22,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.grey[100],
           textTheme: const TextTheme(bodyMedium: TextStyle(fontSize: 16)),
         ),
-        home: HomeScreen(),
-        debugShowCheckedModeBanner: false, // Desativa o banner de debug
+        home: const OnboardingScreen(), // Onboarding como tela inicial
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

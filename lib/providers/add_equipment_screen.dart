@@ -67,26 +67,40 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
     final equipmentProvider = Provider.of<EquipmentProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Adicionar Equipamento')),
+      appBar: AppBar(
+        title: const Text('Adicionar itens'),
+        backgroundColor: const Color(0xFFF2D4AE),
+      ),
       body: Stack(
         children: [
+          // Fundo de partículas
           const ParticleBackground(
             backgroundColor: Color.fromARGB(255, 174, 242, 231),
-          ), // Cor diferente
+          ),
 
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              120,
+              16,
+              16,
+            ), // Espaço para o título
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                      CrossAxisAlignment.stretch, // Ocupa toda a largura
                   children: [
                     TextFormField(
                       controller: _titleController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Título',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                       validator:
                           (value) =>
@@ -97,9 +111,13 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _subtitleController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Subtítulo',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                       validator:
                           (value) =>
@@ -110,9 +128,13 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _priceController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Preço (R\$)',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                       keyboardType: TextInputType.number,
                       validator: (value) {
@@ -126,25 +148,37 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _imageController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'URL da Imagem (opcional)',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _linkController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Link (opcional)',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                     ),
                     const SizedBox(height: 16.0),
                     DropdownButtonFormField<String>(
                       value: _urgency,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Urgência',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
                       ),
                       items: const [
                         DropdownMenuItem(value: 'high', child: Text('Alta')),
@@ -164,6 +198,10 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                           (value) =>
                               setState(() => _mostUrgent = value ?? false),
                       activeColor: Colors.red,
+                      tileColor: Colors.white.withOpacity(0.8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
                     const SizedBox(height: 24.0),
                     ElevatedButton(
@@ -174,7 +212,13 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFAEBF8A),
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        minimumSize: const Size(
+                          double.infinity,
+                          50,
+                        ), // Botão ocupa toda a largura
                       ),
                       child:
                           equipmentProvider.isLoading
@@ -183,7 +227,11 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                               )
                               : const Text(
                                 'Adicionar Equipamento',
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                     ),
                   ],
@@ -191,6 +239,7 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
               ),
             ),
           ),
+          // Indicadores de loading e erro
           if (equipmentProvider.isLoading)
             const Center(child: CircularProgressIndicator()),
           if (equipmentProvider.errorMessage != null)
