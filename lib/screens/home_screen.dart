@@ -71,16 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddEquipmentScreen()),
-          );
-        },
-        backgroundColor: const Color(0xFFAEBF8A),
-        child: const Icon(Icons.add, color: Colors.black),
-      ),
     );
   }
 }

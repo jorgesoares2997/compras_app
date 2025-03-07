@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 class ThemeProvider with ChangeNotifier {
   bool _isDarkMode = false;
+  Locale _currentLocale = const Locale('pt');
 
   bool get isDarkMode => _isDarkMode;
+  ThemeMode get themeMode => _isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  Locale get currentLocale => _currentLocale;
 
-  ThemeData get themeData => _isDarkMode ? _darkTheme : _lightTheme;
-
-  static final _lightTheme = ThemeData(
+  static final ThemeData lightTheme = ThemeData(
     primarySwatch: Colors.blue,
     scaffoldBackgroundColor: Colors.grey[100],
     textTheme: const TextTheme(bodyMedium: TextStyle(fontSize: 16)),
@@ -18,7 +19,7 @@ class ThemeProvider with ChangeNotifier {
     ),
   );
 
-  static final _darkTheme = ThemeData(
+  static final ThemeData darkTheme = ThemeData(
     primarySwatch: Colors.blue,
     scaffoldBackgroundColor: Colors.grey[900],
     textTheme: const TextTheme(
@@ -34,5 +35,12 @@ class ThemeProvider with ChangeNotifier {
   void toggleTheme() {
     _isDarkMode = !_isDarkMode;
     notifyListeners();
+  }
+
+  void setLocale(Locale locale) {
+    if (_currentLocale != locale) {
+      _currentLocale = locale;
+      notifyListeners();
+    }
   }
 }

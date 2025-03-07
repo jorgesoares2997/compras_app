@@ -1,10 +1,10 @@
 import 'package:compras_app/ParticleBackground.dart';
-import 'package:compras_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart';
+import 'package:provider/provider.dart';
 import '../models/schedule.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -19,8 +19,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final TextEditingController _personController = TextEditingController();
-
-  DateTime get normalizedDay => DateTime(2025);
 
   @override
   void initState() {
@@ -72,7 +70,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       );
                     });
                     _scheduleNotification(
-                      normalizedDay,
+                      day, // Passa o day diretamente
                       _personController.text,
                     );
                     _personController.clear();
@@ -92,8 +90,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  // Configurar notificação (Corrigido)
+  // Configurar notificação
   Future<void> _scheduleNotification(DateTime day, String person) async {
+    final flutterLocalNotificationsPlugin =
+        Provider.of<FlutterLocalNotificationsPlugin>(context, listen: false);
+
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
           'schedule_channel',
@@ -143,7 +144,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
           const ParticleBackground(
             backgroundColor: Color.fromARGB(255, 155, 124, 221),
           ),
-
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 120, 16, 16),
             child: Column(

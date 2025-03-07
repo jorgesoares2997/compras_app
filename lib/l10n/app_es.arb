@@ -1,0 +1,13 @@
+{
+  "settings": "Configuraciones",
+  "darkMode": "Modo Oscuro",
+  "language": "Idioma",
+  "profile": "Perfil",
+  "editProfile": "Editar nombre y foto",
+  "notifications": "Notificaciones",
+  "configureAlerts": "Configurar alertas",
+  "about": "Acerca de",
+  "version": "Versión 1.0.0",
+  "logout": "Salir",
+  "@@locale": "es"
+}

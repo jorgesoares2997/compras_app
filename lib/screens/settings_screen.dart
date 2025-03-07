@@ -1,3 +1,4 @@
+import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/screens/login_screen.dart';
 import 'package:compras_app/services/auth_service.dart';
@@ -13,42 +14,35 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String? _selectedLanguage = 'Português'; // Valor padrão
+  String? _selectedLanguage = 'Português';
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final localizations = AppLocalizations.of(context)!; // Acessa as traduções
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Configurações'),
+        title: Text(localizations.settings),
         backgroundColor: const Color(0xFFF2D4AE),
       ),
       body: Stack(
         children: [
-          // Fundo de partículas com vermelho clarinho
-          const ParticleBackground(
-            backgroundColor: Color(0xFFFFE6E6), // Vermelho bem clarinho
-          ),
-          // Título "AudioIBP" no topo
-
-          // Conteúdo da tela
+          const ParticleBackground(backgroundColor: Color(0xFFFFE6E6)),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 120, 16, 16),
             child: SingleChildScrollView(
-              // Adicionado para evitar overflow
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 20),
-                  // Alternar tema claro/escuro
                   Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: ListTile(
-                      title: const Text('Modo Escuro'),
+                      title: Text(localizations.darkMode),
                       trailing: Switch(
                         value: themeProvider.isDarkMode,
                         onChanged: (value) {
@@ -59,7 +53,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Seleção de idioma
                   Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(
@@ -67,7 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: ListTile(
                       leading: const Icon(Icons.language),
-                      title: const Text('Idioma'),
+                      title: Text(localizations.language),
                       trailing: DropdownButton<String>(
                         value: _selectedLanguage,
                         items: const [
@@ -87,6 +80,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onChanged: (value) {
                           setState(() {
                             _selectedLanguage = value;
+                            Locale newLocale;
+                            switch (value) {
+                              case 'English':
+                                newLocale = const Locale('en');
+                                break;
+                              case 'Español':
+                                newLocale = const Locale('es');
+                                break;
+                              case 'Português':
+                              default:
+                                newLocale = const Locale('pt');
+                            }
+                            themeProvider.setLocale(newLocale);
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Idioma alterado para $value'),
@@ -94,12 +100,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             );
                           });
                         },
-                        underline: Container(), // Remove a linha padrão
+                        underline: Container(),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Perfil
                   Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(
@@ -107,8 +112,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: ListTile(
                       leading: const Icon(Icons.person),
-                      title: const Text('Perfil'),
-                      subtitle: const Text('Editar nome e foto'),
+                      title: Text(localizations.profile),
+                      subtitle: Text(localizations.editProfile),
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -119,7 +124,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Notificações
                   Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(
@@ -127,8 +131,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: ListTile(
                       leading: const Icon(Icons.notifications),
-                      title: const Text('Notificações'),
-                      subtitle: const Text('Configurar alertas'),
+                      title: Text(localizations.notifications),
+                      subtitle: Text(localizations.configureAlerts),
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -139,7 +143,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Sobre
                   Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(
@@ -147,8 +150,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: ListTile(
                       leading: const Icon(Icons.info),
-                      title: const Text('Sobre'),
-                      subtitle: const Text('Versão 1.0.0'),
+                      title: Text(localizations.about),
+                      subtitle: Text(localizations.version),
                       onTap: () {
                         showAboutDialog(
                           context: context,
@@ -160,7 +163,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Logout
                   Card(
                     elevation: 2,
                     shape: RoundedRectangleBorder(
@@ -168,11 +170,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     child: ListTile(
                       leading: const Icon(Icons.logout, color: Colors.red),
-                      title: const Text(
-                        'Sair',
-                        style: TextStyle(color: Colors.red),
+                      title: Text(
+                        localizations.logout,
+                        style: const TextStyle(color: Colors.red),
                       ),
-                      // No ListTile de "Sair"
                       onTap: () async {
                         await AuthService().logout();
                         Navigator.pushReplacement(
