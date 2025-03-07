@@ -1,6 +1,6 @@
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/models/equipments.dart';
-import 'package:compras_app/providers/add_equipment_screen.dart';
+import 'package:compras_app/screens/add_equipment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';

@@ -29,10 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       setState(() => _isLoading = false);
       if (success) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
+        Navigator.pushReplacementNamed(context, '/login');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Registro bem-sucedido! Faça login.')),
         );

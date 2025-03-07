@@ -1,9 +1,9 @@
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/providers/equipment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../models/report.dart';
-import '../providers/equipment_provider.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({Key? key}) : super(key: key);
