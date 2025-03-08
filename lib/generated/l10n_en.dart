@@ -209,6 +209,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String urgentEquipmentAdded(Object title) {
+    return '$title added with high urgency!';
+  }
+
+  @override
   String get login => 'Login';
 
   @override
@@ -219,4 +224,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginFailed => 'Login failed';
+
+  @override
+  String get welcomeBack => 'Welcome back!';
 }

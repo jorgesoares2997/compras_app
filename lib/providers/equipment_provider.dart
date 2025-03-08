@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../models/equipments.dart';
 import '../models/report.dart';
+import '../services/api_service.dart';
 
 class EquipmentProvider with ChangeNotifier {
+  final ApiService _apiService = ApiService();
   List<Equipment> _equipments = [];
   List<Report> _reports = [];
   bool _isLoading = false;
@@ -17,23 +19,24 @@ class EquipmentProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      // Simulação de adição (substitua por sua lógica real, ex.: API ou banco de dados)
-      await Future.delayed(const Duration(seconds: 1));
-      _equipments.add(equipment);
+      await _apiService.addEquipment(equipment);
+      _equipments.add(equipment); // Adiciona localmente após sucesso na API
       _isLoading = false;
       _errorMessage = null;
     } catch (e) {
       _isLoading = false;
       _errorMessage = e.toString();
+      rethrow; // Propaga a exceção para o AddEquipmentScreen
+    } finally {
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   Future<void> addReport(Report report) async {
     _isLoading = true;
     notifyListeners();
     try {
-      // Simulação de adição (substitua por sua lógica real)
+      // Simulação de adição (substitua por lógica real, ex.: API)
       await Future.delayed(const Duration(seconds: 1));
       _reports.add(report);
       _isLoading = false;
@@ -45,5 +48,17 @@ class EquipmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void fetchEquipments() {}
+  Future<void> fetchEquipments() async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      _equipments = await _apiService.fetchEquipments();
+      _isLoading = false;
+      _errorMessage = null;
+    } catch (e) {
+      _isLoading = false;
+      _errorMessage = e.toString();
+    }
+    notifyListeners();
+  }
 }

@@ -475,11 +475,17 @@ abstract class AppLocalizations {
   /// **'Equipment added successfully!'**
   String get equipmentAddedSuccess;
 
-  /// No description provided for @equipmentAddError.
+  /// Error message when adding equipment fails
   ///
   /// In en, this message translates to:
   /// **'Error adding equipment: {error}'**
   String equipmentAddError(Object error);
+
+  /// Notification message for urgent equipment added
+  ///
+  /// In en, this message translates to:
+  /// **'{title} added with high urgency!'**
+  String urgentEquipmentAdded(Object title);
 
   /// No description provided for @login.
   ///
@@ -504,6 +510,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login failed'**
   String get loginFailed;
+
+  /// No description provided for @welcomeBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back!'**
+  String get welcomeBack;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

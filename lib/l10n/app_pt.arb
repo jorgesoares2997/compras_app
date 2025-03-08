@@ -63,10 +63,12 @@
   "addEquipment": "Adicionar Equipamento",
   "equipmentAddedSuccess": "Equipamento adicionado com sucesso!",
   "equipmentAddError": "Erro ao adicionar equipamento: {error}",
+  "urgentEquipmentAdded": "{title} adicionado com alta urgência!",
   "login": "Login",
   "loginButton": "Entrar",
   "noAccountRegister": "Não tem conta? Registre-se",
   "loginFailed": "Falha no login",
+  "welcomeBack": "Bem-vindo(a) de volta!",
   "@@locale": "pt",
   "scheduleFor": "Escalar para {date}",
   "scheduledFor": "Escalado para {date}",
@@ -82,6 +84,22 @@
     "description": "Subtítulo indicando a data para a qual uma pessoa está escalada",
     "placeholders": {
       "date": {
+        "type": "Object"
+      }
+    }
+  },
+  "@equipmentAddError": {
+    "description": "Mensagem de erro ao falhar ao adicionar equipamento",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "@urgentEquipmentAdded": {
+    "description": "Mensagem de notificação para equipamento urgente adicionado",
+    "placeholders": {
+      "title": {
         "type": "Object"
       }
     }

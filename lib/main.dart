@@ -92,6 +92,10 @@ class MyApp extends StatelessWidget {
         '/report': (context) => const ReportScreen(),
         '/add_equipment': (context) => const AddEquipmentScreen(),
       },
+      onUnknownRoute: (settings) {
+        // Redirecionar para /main se a rota for desconhecida
+        return MaterialPageRoute(builder: (context) => const MainScreen());
+      },
     );
   }
 }

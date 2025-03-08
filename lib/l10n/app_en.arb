@@ -63,11 +63,29 @@
   "addEquipment": "Add Equipment",
   "equipmentAddedSuccess": "Equipment added successfully!",
   "equipmentAddError": "Error adding equipment: {error}",
+  "urgentEquipmentAdded": "{title} added with high urgency!",
   "login": "Login",
   "loginButton": "Log In",
   "noAccountRegister": "Don't have an account? Register",
   "loginFailed": "Login failed",
+  "welcomeBack": "Welcome back!",
   "@@locale": "en",
+  "@equipmentAddError": {
+    "description": "Error message when adding equipment fails",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "@urgentEquipmentAdded": {
+    "description": "Notification message for urgent equipment added",
+    "placeholders": {
+      "title": {
+        "type": "Object"
+      }
+    }
+  },
   "scheduleFor": "Schedule for {date}",
   "scheduledFor": "Scheduled for {date}",
   "@scheduleFor": {

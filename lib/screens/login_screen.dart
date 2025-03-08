@@ -1,8 +1,10 @@
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/services/auth_service.dart';
+import 'package:compras_app/services/notification_service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 import 'main_screen.dart';
 import 'register_screen.dart';
 
@@ -22,6 +24,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     final localizations = AppLocalizations.of(context)!;
+    final notificationService = NotificationService(
+      Provider.of<FlutterLocalNotificationsPlugin>(context, listen: false),
+    );
+
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
       final token = await _authService.login(
@@ -30,6 +36,12 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       setState(() => _isLoading = false);
       if (token != null) {
+        // Exibir notificação de boas-vindas
+        await notificationService.showNotification(
+          id: 0, // ID fixo para notificação de login
+          title: localizations.login,
+          body: localizations.welcomeBack, // Nova chave a ser adicionada
+        );
         Navigator.pushReplacementNamed(context, '/main');
       } else {
         ScaffoldMessenger.of(
@@ -141,5 +153,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

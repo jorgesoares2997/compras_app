@@ -63,11 +63,29 @@
   "addEquipment": "Añadir Equipo",
   "equipmentAddedSuccess": "¡Equipo añadido con éxito!",
   "equipmentAddError": "Error al añadir equipo: {error}",
+  "urgentEquipmentAdded": "¡{title} añadido con alta urgencia!",
   "login": "Inicio de Sesión",
   "loginButton": "Iniciar Sesión",
   "noAccountRegister": "¿No tienes cuenta? Regístrate",
   "loginFailed": "Fallo en el inicio de sesión",
+  "welcomeBack": "¡Bienvenido(a) de vuelta!",
   "@@locale": "es",
+  "@equipmentAddError": {
+    "description": "Mensaje de error al fallar al añadir equipo",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "@urgentEquipmentAdded": {
+    "description": "Mensaje de notificación para equipo urgente añadido",
+    "placeholders": {
+      "title": {
+        "type": "Object"
+      }
+    }
+  },
   "scheduleFor": "Programar para {date}",
   "scheduledFor": "Programado para {date}",
   "@scheduleFor": {

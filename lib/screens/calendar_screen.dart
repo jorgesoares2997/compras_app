@@ -1,10 +1,10 @@
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/generated/l10n.dart';
+import 'package:compras_app/services/notification_service.dart';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:timezone/timezone.dart';
 import 'package:provider/provider.dart';
 import '../models/schedule.dart';
 
@@ -20,12 +20,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   final TextEditingController _personController = TextEditingController();
+  late NotificationService _notificationService;
 
   @override
   void initState() {
     super.initState();
     _schedules = {};
     _selectedDay = _focusedDay;
+    _notificationService = NotificationService(
+      Provider.of<FlutterLocalNotificationsPlugin>(context, listen: false),
+    );
   }
 
   @override
@@ -34,7 +38,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.dispose();
   }
 
-  // Adicionar uma escala
   void _addSchedule(DateTime day) {
     final localizations = AppLocalizations.of(context)!;
     showDialog(
@@ -91,25 +94,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  // Configurar notificação
   Future<void> _scheduleNotification(DateTime day, String person) async {
     final localizations = AppLocalizations.of(context)!;
-    final flutterLocalNotificationsPlugin =
-        Provider.of<FlutterLocalNotificationsPlugin>(context, listen: false);
-
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
-          'schedule_channel',
-          'Schedules', // Não traduzido aqui, pois é um identificador interno
-          channelDescription: 'Schedule notifications', // Não traduzido aqui
-          importance: Importance.max,
-          priority: Priority.high,
-        );
-    const NotificationDetails notificationDetails = NotificationDetails(
-      android: androidDetails,
-      iOS: DarwinNotificationDetails(),
-    );
-
     final scheduledDate = DateTime(
       day.year,
       day.month,
@@ -117,19 +103,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
       8,
       0,
     ); // 8h do dia
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      day.hashCode, // ID único baseado no dia
-      localizations.scheduleToday,
-      localizations.scheduleNotificationMessage(person),
-      TZDateTime.from(scheduledDate, local),
-      notificationDetails,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.dateAndTime,
+    await _notificationService.scheduleNotification(
+      id: day.hashCode,
+      title: localizations.scheduleToday,
+      body: localizations.scheduleNotificationMessage(person),
+      scheduledDate: scheduledDate,
     );
   }
 
-  // Obter escalas para um dia
   List<Schedule> _getSchedulesForDay(DateTime day) {
     return _schedules[DateTime(day.year, day.month, day.day)] ?? [];
   }

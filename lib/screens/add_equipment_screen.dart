@@ -1,6 +1,8 @@
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/generated/l10n.dart';
+import 'package:compras_app/services/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import '../models/equipments.dart';
 import '../providers/equipment_provider.dart';
@@ -34,6 +36,10 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
 
   Future<void> _submitForm(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
+    final notificationService = NotificationService(
+      Provider.of<FlutterLocalNotificationsPlugin>(context, listen: false),
+    );
+
     if (_formKey.currentState!.validate()) {
       final equipment = Equipment(
         title: _titleController.text,
@@ -46,17 +52,42 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
       );
 
       try {
+        print('Adding equipment: ${equipment.title}');
         await Provider.of<EquipmentProvider>(
           context,
           listen: false,
         ).addEquipment(equipment);
         if (!mounted) return;
+        print('Equipment added successfully');
+
+        // Mostrar SnackBar antes de navegar
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(localizations.equipmentAddedSuccess)),
         );
-        Navigator.pop(context);
+
+        // Notificação para equipamentos urgentes
+        if (_mostUrgent || _urgency == 'high') {
+          print('Showing notification for urgent equipment');
+          await notificationService.showNotification(
+            id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+            title: localizations.addEquipment,
+            body: localizations.urgentEquipmentAdded(equipment.title as Object),
+          );
+          print('Notification shown');
+        }
+
+        // Redirecionar para a home
+        await Future.delayed(
+          const Duration(milliseconds: 500),
+        ); // Pequeno atraso para o SnackBar ser visível
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(
+          context,
+          '/main',
+        ); // Substitui a tela atual pela home
       } catch (e) {
         if (!mounted) return;
+        print('Error in _submitForm: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.equipmentAddError(e.toString())),
