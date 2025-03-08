@@ -240,6 +240,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error submitting report'**
   String get reportSubmissionError;
+
+  /// No description provided for @register.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get register;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// No description provided for @enterName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get enterName;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @enterEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an email'**
+  String get enterEmail;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @enterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a password'**
+  String get enterPassword;
+
+  /// No description provided for @registerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Register'**
+  String get registerButton;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Log in'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @registrationSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration successful! Please log in.'**
+  String get registrationSuccess;
+
+  /// No description provided for @registrationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed'**
+  String get registrationFailed;
+
+  /// No description provided for @viewItems.
+  ///
+  /// In en, this message translates to:
+  /// **'View Items'**
+  String get viewItems;
+
+  /// No description provided for @calendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get calendar;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @manageItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Items'**
+  String get manageItems;
+
+  /// Title for scheduling a person for a specific date
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule for {date}'**
+  String scheduleFor(Object date);
+
+  /// No description provided for @personName.
+  ///
+  /// In en, this message translates to:
+  /// **'Person\'s Name'**
+  String get personName;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @scheduleToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Schedule'**
+  String get scheduleToday;
+
+  /// No description provided for @scheduleNotificationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {person}! You are scheduled today.'**
+  String scheduleNotificationMessage(Object person);
+
+  /// Subtitle indicating the date a person is scheduled for
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled for {date}'**
+  String scheduledFor(Object date);
+
+  /// No description provided for @addItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Items'**
+  String get addItems;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @enterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a title'**
+  String get enterTitle;
+
+  /// No description provided for @subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitle'**
+  String get subtitle;
+
+  /// No description provided for @enterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a subtitle'**
+  String get enterSubtitle;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price (R\$)'**
+  String get price;
+
+  /// No description provided for @enterPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a price'**
+  String get enterPrice;
+
+  /// No description provided for @enterValidPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid price'**
+  String get enterValidPrice;
+
+  /// No description provided for @imageUrlOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Image URL (optional)'**
+  String get imageUrlOptional;
+
+  /// No description provided for @linkOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Link (optional)'**
+  String get linkOptional;
+
+  /// No description provided for @urgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgency'**
+  String get urgency;
+
+  /// No description provided for @high.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get high;
+
+  /// No description provided for @medium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get medium;
+
+  /// No description provided for @low.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get low;
+
+  /// No description provided for @selectUrgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Select urgency'**
+  String get selectUrgency;
+
+  /// No description provided for @mostUrgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Most Urgent'**
+  String get mostUrgent;
+
+  /// No description provided for @addEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Equipment'**
+  String get addEquipment;
+
+  /// No description provided for @equipmentAddedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment added successfully!'**
+  String get equipmentAddedSuccess;
+
+  /// No description provided for @equipmentAddError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error adding equipment: {error}'**
+  String equipmentAddError(Object error);
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get loginButton;
+
+  /// No description provided for @noAccountRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Register'**
+  String get noAccountRegister;
+
+  /// No description provided for @loginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed'**
+  String get loginFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,4 +1,5 @@
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   Future<void> _login() async {
+    final localizations = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
       final token = await _authService.login(
@@ -28,20 +30,22 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       setState(() => _isLoading = false);
       if (token != null) {
-        Navigator.pushReplacementNamed(context, '/main'); // Ajustado para /home
+        Navigator.pushReplacementNamed(context, '/main');
       } else {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Falha no login')));
+        ).showSnackBar(SnackBar(content: Text(localizations.loginFailed)));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: Text(localizations.login),
         backgroundColor: const Color(0xFFF2D4AE),
       ),
       body: Stack(
@@ -49,7 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
           const ParticleBackground(
             backgroundColor: Color.fromARGB(255, 248, 211, 211),
           ),
-
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -60,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: 'Email',
+                      labelText: localizations.email,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -70,14 +73,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator:
                         (value) =>
                             value == null || value.isEmpty
-                                ? 'Insira um email'
+                                ? localizations.enterEmail
                                 : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: 'Senha',
+                      labelText: localizations.password,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -88,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator:
                         (value) =>
                             value == null || value.isEmpty
-                                ? 'Insira uma senha'
+                                ? localizations.enterPassword
                                 : null,
                   ),
                   const SizedBox(height: 24),
@@ -107,9 +110,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? const CircularProgressIndicator(
                               color: Colors.black,
                             )
-                            : const Text(
-                              'Entrar',
-                              style: TextStyle(
+                            : Text(
+                              localizations.loginButton,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -126,9 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     },
-                    child: const Text(
-                      'Não tem conta? Registre-se',
-                      style: TextStyle(color: Colors.black),
+                    child: Text(
+                      localizations.noAccountRegister,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                 ],

@@ -1,7 +1,7 @@
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
-
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -20,6 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
 
   Future<void> _register() async {
+    final localizations = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
       final success = await _authService.register(
@@ -31,21 +32,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (success) {
         Navigator.pushReplacementNamed(context, '/login');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registro bem-sucedido! Faça login.')),
+          SnackBar(content: Text(localizations.registrationSuccess)),
         );
       } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Falha no registro')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(localizations.registrationFailed)),
+        );
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registre-se'),
+        title: Text(localizations.register),
         backgroundColor: const Color(0xFFF2D4AE),
       ),
       body: Stack(
@@ -53,7 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           const ParticleBackground(
             backgroundColor: Color.fromARGB(255, 215, 250, 206),
           ),
-
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
@@ -64,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(
-                      labelText: 'Nome',
+                      labelText: localizations.name,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -74,14 +76,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator:
                         (value) =>
                             value == null || value.isEmpty
-                                ? 'Insira um nome'
+                                ? localizations.enterName
                                 : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: 'Email',
+                      labelText: localizations.email,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -91,14 +93,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator:
                         (value) =>
                             value == null || value.isEmpty
-                                ? 'Insira um email'
+                                ? localizations.enterEmail
                                 : null,
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: 'Senha',
+                      labelText: localizations.password,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -109,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     validator:
                         (value) =>
                             value == null || value.isEmpty
-                                ? 'Insira uma senha'
+                                ? localizations.enterPassword
                                 : null,
                   ),
                   const SizedBox(height: 24),
@@ -128,9 +130,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ? const CircularProgressIndicator(
                               color: Colors.black,
                             )
-                            : const Text(
-                              'Registrar',
-                              style: TextStyle(
+                            : Text(
+                              localizations.registerButton,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -147,9 +149,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       );
                     },
-                    child: const Text(
-                      'Já tem conta? Faça login',
-                      style: TextStyle(color: Colors.black),
+                    child: Text(
+                      localizations.alreadyHaveAccount,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                 ],

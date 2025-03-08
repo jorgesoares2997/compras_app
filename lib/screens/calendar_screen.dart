@@ -1,4 +1,5 @@
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -35,22 +36,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   // Adicionar uma escala
   void _addSchedule(DateTime day) {
+    final localizations = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder:
           (context) => AlertDialog(
-            title: Text('Escalar para ${DateFormat('dd/MM/yyyy').format(day)}'),
+            title: Text(
+              localizations.scheduleFor(DateFormat('dd/MM/yyyy').format(day)),
+            ),
             content: TextField(
               controller: _personController,
-              decoration: const InputDecoration(
-                labelText: 'Nome da Pessoa',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: localizations.personName,
+                border: const OutlineInputBorder(),
               ),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancelar'),
+                child: Text(localizations.cancel),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -69,10 +73,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         ),
                       );
                     });
-                    _scheduleNotification(
-                      day, // Passa o day diretamente
-                      _personController.text,
-                    );
+                    _scheduleNotification(day, _personController.text);
                     _personController.clear();
                     Navigator.pop(context);
                   }
@@ -80,9 +81,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFAEBF8A),
                 ),
-                child: const Text(
-                  'Adicionar',
-                  style: TextStyle(color: Colors.black),
+                child: Text(
+                  localizations.add,
+                  style: const TextStyle(color: Colors.black),
                 ),
               ),
             ],
@@ -92,14 +93,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   // Configurar notificação
   Future<void> _scheduleNotification(DateTime day, String person) async {
+    final localizations = AppLocalizations.of(context)!;
     final flutterLocalNotificationsPlugin =
         Provider.of<FlutterLocalNotificationsPlugin>(context, listen: false);
 
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
           'schedule_channel',
-          'Escalas',
-          channelDescription: 'Notificações de escalas',
+          'Schedules', // Não traduzido aqui, pois é um identificador interno
+          channelDescription: 'Schedule notifications', // Não traduzido aqui
           importance: Importance.max,
           priority: Priority.high,
         );
@@ -117,9 +119,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     ); // 8h do dia
     await flutterLocalNotificationsPlugin.zonedSchedule(
       day.hashCode, // ID único baseado no dia
-      'Escala Hoje',
-      'Olá, $person! Você está escalado(a) hoje.',
-      TZDateTime.from(scheduledDate, local), // Usar TZDateTime para timezone
+      localizations.scheduleToday,
+      localizations.scheduleNotificationMessage(person),
+      TZDateTime.from(scheduledDate, local),
       notificationDetails,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
@@ -134,9 +136,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendário'),
+        title: Text(localizations.calendar),
         backgroundColor: const Color(0xFFF2D4AE),
       ),
       body: Stack(
@@ -188,7 +192,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             child: ListTile(
                               title: Text(schedule.person),
                               subtitle: Text(
-                                'Escalado para ${DateFormat('dd/MM/yyyy').format(schedule.date)}',
+                                localizations.scheduledFor(
+                                  DateFormat(
+                                    'dd/MM/yyyy',
+                                  ).format(schedule.date),
+                                ),
                               ),
                             ),
                           );

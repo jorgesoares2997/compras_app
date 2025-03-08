@@ -79,4 +79,144 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reportSubmissionError => 'Error al enviar el informe';
+
+  @override
+  String get register => 'Registrarse';
+
+  @override
+  String get name => 'Nombre';
+
+  @override
+  String get enterName => 'Ingrese un nombre';
+
+  @override
+  String get email => 'Correo';
+
+  @override
+  String get enterEmail => 'Ingrese un correo';
+
+  @override
+  String get password => 'Contraseña';
+
+  @override
+  String get enterPassword => 'Ingrese una contraseña';
+
+  @override
+  String get registerButton => 'Registrar';
+
+  @override
+  String get alreadyHaveAccount => '¿Ya tienes cuenta? Inicia sesión';
+
+  @override
+  String get registrationSuccess => '¡Registro exitoso! Por favor, inicia sesión.';
+
+  @override
+  String get registrationFailed => 'Fallo en el registro';
+
+  @override
+  String get viewItems => 'Ver Artículos';
+
+  @override
+  String get calendar => 'Calendario';
+
+  @override
+  String get add => 'Añadir';
+
+  @override
+  String get manageItems => 'Gestionar Artículos';
+
+  @override
+  String scheduleFor(Object date) {
+    return 'Programar para $date';
+  }
+
+  @override
+  String get personName => 'Nombre de la Persona';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get scheduleToday => 'Programación de Hoy';
+
+  @override
+  String scheduleNotificationMessage(Object person) {
+    return '¡Hola, $person! Estás programado(a) hoy.';
+  }
+
+  @override
+  String scheduledFor(Object date) {
+    return 'Programado para $date';
+  }
+
+  @override
+  String get addItems => 'Añadir Artículos';
+
+  @override
+  String get title => 'Título';
+
+  @override
+  String get enterTitle => 'Ingrese un título';
+
+  @override
+  String get subtitle => 'Subtítulo';
+
+  @override
+  String get enterSubtitle => 'Ingrese un subtítulo';
+
+  @override
+  String get price => 'Precio (R\$)';
+
+  @override
+  String get enterPrice => 'Ingrese un precio';
+
+  @override
+  String get enterValidPrice => 'Ingrese un valor válido';
+
+  @override
+  String get imageUrlOptional => 'URL de la Imagen (opcional)';
+
+  @override
+  String get linkOptional => 'Enlace (opcional)';
+
+  @override
+  String get urgency => 'Urgencia';
+
+  @override
+  String get high => 'Alta';
+
+  @override
+  String get medium => 'Media';
+
+  @override
+  String get low => 'Baja';
+
+  @override
+  String get selectUrgency => 'Seleccione la urgencia';
+
+  @override
+  String get mostUrgent => 'Más Urgente';
+
+  @override
+  String get addEquipment => 'Añadir Equipo';
+
+  @override
+  String get equipmentAddedSuccess => '¡Equipo añadido con éxito!';
+
+  @override
+  String equipmentAddError(Object error) {
+    return 'Error al añadir equipo: $error';
+  }
+
+  @override
+  String get login => 'Inicio de Sesión';
+
+  @override
+  String get loginButton => 'Iniciar Sesión';
+
+  @override
+  String get noAccountRegister => '¿No tienes cuenta? Regístrate';
+
+  @override
+  String get loginFailed => 'Fallo en el inicio de sesión';
 }

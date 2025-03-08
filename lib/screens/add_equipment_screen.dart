@@ -1,4 +1,5 @@
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/equipments.dart';
@@ -32,6 +33,7 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
   }
 
   Future<void> _submitForm(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       final equipment = Equipment(
         title: _titleController.text,
@@ -50,14 +52,16 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
         ).addEquipment(equipment);
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Equipamento adicionado com sucesso!')),
+          SnackBar(content: Text(localizations.equipmentAddedSuccess)),
         );
         Navigator.pop(context);
       } catch (e) {
         if (!mounted) return;
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Erro ao adicionar: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(localizations.equipmentAddError(e.toString())),
+          ),
+        );
       }
     }
   }
@@ -65,37 +69,30 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
   @override
   Widget build(BuildContext context) {
     final equipmentProvider = Provider.of<EquipmentProvider>(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Adicionar itens'),
+        title: Text(localizations.addItems),
         backgroundColor: const Color(0xFFF2D4AE),
       ),
       body: Stack(
         children: [
-          // Fundo de partículas
           const ParticleBackground(
             backgroundColor: Color.fromARGB(255, 174, 242, 231),
           ),
-
           Padding(
-            padding: const EdgeInsets.fromLTRB(
-              16,
-              120,
-              16,
-              16,
-            ), // Espaço para o título
+            padding: const EdgeInsets.fromLTRB(16, 120, 16, 16),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.stretch, // Ocupa toda a largura
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(
                       controller: _titleController,
                       decoration: InputDecoration(
-                        labelText: 'Título',
+                        labelText: localizations.title,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -105,14 +102,14 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                       validator:
                           (value) =>
                               value == null || value.isEmpty
-                                  ? 'Insira um título'
+                                  ? localizations.enterTitle
                                   : null,
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _subtitleController,
                       decoration: InputDecoration(
-                        labelText: 'Subtítulo',
+                        labelText: localizations.subtitle,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -122,14 +119,14 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                       validator:
                           (value) =>
                               value == null || value.isEmpty
-                                  ? 'Insira um subtítulo'
+                                  ? localizations.enterSubtitle
                                   : null,
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
                       controller: _priceController,
                       decoration: InputDecoration(
-                        labelText: 'Preço (R\$)',
+                        labelText: localizations.price,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -138,10 +135,12 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                       ),
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value == null || value.isEmpty)
-                          return 'Insira um preço';
-                        if (double.tryParse(value) == null)
-                          return 'Insira um valor válido';
+                        if (value == null || value.isEmpty) {
+                          return localizations.enterPrice;
+                        }
+                        if (double.tryParse(value) == null) {
+                          return localizations.enterValidPrice;
+                        }
                         return null;
                       },
                     ),
@@ -149,7 +148,7 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                     TextFormField(
                       controller: _imageController,
                       decoration: InputDecoration(
-                        labelText: 'URL da Imagem (opcional)',
+                        labelText: localizations.imageUrlOptional,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -161,7 +160,7 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                     TextFormField(
                       controller: _linkController,
                       decoration: InputDecoration(
-                        labelText: 'Link (opcional)',
+                        labelText: localizations.linkOptional,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -173,26 +172,37 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                     DropdownButtonFormField<String>(
                       value: _urgency,
                       decoration: InputDecoration(
-                        labelText: 'Urgência',
+                        labelText: localizations.urgency,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
-                      items: const [
-                        DropdownMenuItem(value: 'high', child: Text('Alta')),
-                        DropdownMenuItem(value: 'medium', child: Text('Média')),
-                        DropdownMenuItem(value: 'low', child: Text('Baixa')),
+                      items: [
+                        DropdownMenuItem(
+                          value: 'high',
+                          child: Text(localizations.high),
+                        ),
+                        DropdownMenuItem(
+                          value: 'medium',
+                          child: Text(localizations.medium),
+                        ),
+                        DropdownMenuItem(
+                          value: 'low',
+                          child: Text(localizations.low),
+                        ),
                       ],
                       onChanged: (value) => setState(() => _urgency = value),
                       validator:
                           (value) =>
-                              value == null ? 'Selecione a urgência' : null,
+                              value == null
+                                  ? localizations.selectUrgency
+                                  : null,
                     ),
                     const SizedBox(height: 16.0),
                     CheckboxListTile(
-                      title: const Text('Mais Urgente'),
+                      title: Text(localizations.mostUrgent),
                       value: _mostUrgent,
                       onChanged:
                           (value) =>
@@ -215,19 +225,16 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        minimumSize: const Size(
-                          double.infinity,
-                          50,
-                        ), // Botão ocupa toda a largura
+                        minimumSize: const Size(double.infinity, 50),
                       ),
                       child:
                           equipmentProvider.isLoading
                               ? const CircularProgressIndicator(
                                 color: Colors.black,
                               )
-                              : const Text(
-                                'Adicionar Equipamento',
-                                style: TextStyle(
+                              : Text(
+                                localizations.addEquipment,
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -239,7 +246,6 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
               ),
             ),
           ),
-          // Indicadores de loading e erro
           if (equipmentProvider.isLoading)
             const Center(child: CircularProgressIndicator()),
           if (equipmentProvider.errorMessage != null)

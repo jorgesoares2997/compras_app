@@ -23,5 +23,67 @@
   "submitReport": "Enviar Relatório",
   "reportSubmittedSuccess": "Relatório enviado com sucesso!",
   "reportSubmissionError": "Erro ao enviar relatório",
-  "@@locale": "pt"
+  "register": "Registre-se",
+  "name": "Nome",
+  "enterName": "Insira um nome",
+  "email": "Email",
+  "enterEmail": "Insira um email",
+  "password": "Senha",
+  "enterPassword": "Insira uma senha",
+  "registerButton": "Registrar",
+  "alreadyHaveAccount": "Já tem conta? Faça login",
+  "registrationSuccess": "Registro bem-sucedido! Faça login.",
+  "registrationFailed": "Falha no registro",
+  "viewItems": "Ver Itens",
+  "calendar": "Calendário",
+  "add": "Adicionar",
+  "manageItems": "Gerenciar Itens",
+  "scheduleFor": "Escalar para {date}",
+  "personName": "Nome da Pessoa",
+  "cancel": "Cancelar",
+  "scheduleToday": "Escala Hoje",
+  "scheduleNotificationMessage": "Olá, {person}! Você está escalado(a) hoje.",
+  "scheduledFor": "Escalado para {date}",
+  "addItems": "Adicionar Itens",
+  "title": "Título",
+  "enterTitle": "Insira um título",
+  "subtitle": "Subtítulo",
+  "enterSubtitle": "Insira um subtítulo",
+  "price": "Preço (R$)",
+  "enterPrice": "Insira um preço",
+  "enterValidPrice": "Insira um valor válido",
+  "imageUrlOptional": "URL da Imagem (opcional)",
+  "linkOptional": "Link (opcional)",
+  "urgency": "Urgência",
+  "high": "Alta",
+  "medium": "Média",
+  "low": "Baixa",
+  "selectUrgency": "Selecione a urgência",
+  "mostUrgent": "Mais Urgente",
+  "addEquipment": "Adicionar Equipamento",
+  "equipmentAddedSuccess": "Equipamento adicionado com sucesso!",
+  "equipmentAddError": "Erro ao adicionar equipamento: {error}",
+  "login": "Login",
+  "loginButton": "Entrar",
+  "noAccountRegister": "Não tem conta? Registre-se",
+  "loginFailed": "Falha no login",
+  "@@locale": "pt",
+  "scheduleFor": "Escalar para {date}",
+  "scheduledFor": "Escalado para {date}",
+  "@scheduleFor": {
+    "description": "Título para escalar uma pessoa para uma data específica",
+    "placeholders": {
+      "date": {
+        "type": "Object"
+      }
+    }
+  },
+  "@scheduledFor": {
+    "description": "Subtítulo indicando a data para a qual uma pessoa está escalada",
+    "placeholders": {
+      "date": {
+        "type": "Object"
+      }
+    }
+  }
 }

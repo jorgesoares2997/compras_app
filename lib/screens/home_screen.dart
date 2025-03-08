@@ -1,4 +1,5 @@
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/models/equipments.dart';
 import 'package:compras_app/screens/add_equipment_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,10 @@ import '../providers/equipment_provider.dart';
 import '../widgets/equipment_card.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    super.key,
+  }); // Adicionei o construtor padrão com chave opcional
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -32,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final equipmentProvider = Provider.of<EquipmentProvider>(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Stack(
@@ -40,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: [
               AppBar(
-                title: const Text('Gerenciar itens'),
+                title: Text(localizations.manageItems),
                 backgroundColor: const Color(0xFFF2D4AE),
               ),
               Expanded(

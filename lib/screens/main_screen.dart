@@ -1,3 +1,4 @@
+import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/screens/add_equipment_screen.dart';
 import 'package:compras_app/screens/calendar_screen.dart';
 import 'package:compras_app/screens/home_screen.dart';
@@ -32,26 +33,31 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: IndexedStack(index: _selectedIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Ver Itens'),
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Calendário',
+            icon: const Icon(Icons.list),
+            label: localizations.viewItems,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_circle_outline),
-            label: 'Adicionar',
+            icon: const Icon(Icons.calendar_today),
+            label: localizations.calendar,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Relatório',
+            icon: const Icon(Icons.add_circle_outline),
+            label: localizations.add,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Configurações',
+            icon: const Icon(Icons.bar_chart),
+            label: localizations.reports,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.settings),
+            label: localizations.settings,
           ),
         ],
         currentIndex: _selectedIndex,
