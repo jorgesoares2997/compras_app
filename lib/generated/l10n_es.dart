@@ -37,4 +37,46 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get logout => 'Salir';
+
+  @override
+  String get reports => 'Informes';
+
+  @override
+  String get workDate => 'Fecha de Trabajo';
+
+  @override
+  String get selectDate => 'Seleccione una fecha';
+
+  @override
+  String get serviceDescription => 'Descripción del Servicio';
+
+  @override
+  String get enterDescription => 'Ingrese una descripción';
+
+  @override
+  String get issuesFoundOptional => 'Problemas Encontrados (opcional)';
+
+  @override
+  String get status => 'Estado';
+
+  @override
+  String get completed => 'Completado';
+
+  @override
+  String get pending => 'Pendiente';
+
+  @override
+  String get inProgress => 'En Progreso';
+
+  @override
+  String get selectStatus => 'Seleccione un estado';
+
+  @override
+  String get submitReport => 'Enviar Informe';
+
+  @override
+  String get reportSubmittedSuccess => '¡Informe enviado con éxito!';
+
+  @override
+  String get reportSubmissionError => 'Error al enviar el informe';
 }

@@ -37,4 +37,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout => 'Logout';
+
+  @override
+  String get reports => 'Reports';
+
+  @override
+  String get workDate => 'Work Date';
+
+  @override
+  String get selectDate => 'Select a date';
+
+  @override
+  String get serviceDescription => 'Service Description';
+
+  @override
+  String get enterDescription => 'Enter a description';
+
+  @override
+  String get issuesFoundOptional => 'Issues Found (optional)';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get inProgress => 'In Progress';
+
+  @override
+  String get selectStatus => 'Select a status';
+
+  @override
+  String get submitReport => 'Submit Report';
+
+  @override
+  String get reportSubmittedSuccess => 'Report submitted successfully!';
+
+  @override
+  String get reportSubmissionError => 'Error submitting report';
 }

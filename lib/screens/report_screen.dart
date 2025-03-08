@@ -1,4 +1,5 @@
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/providers/equipment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,7 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   Future<void> _submitReport(BuildContext context) async {
+    final localizations = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       final report = Report(
         date: _selectedDate,
@@ -57,14 +59,14 @@ class _ReportScreenState extends State<ReportScreen> {
         ).addReport(report);
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Relatório enviado com sucesso!')),
+          SnackBar(content: Text(localizations.reportSubmittedSuccess)),
         );
         Navigator.pop(context);
       } catch (e) {
         if (!mounted) return;
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Erro ao enviar relatório: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${localizations.reportSubmissionError}: $e')),
+        );
       }
     }
   }
@@ -72,10 +74,11 @@ class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     final equipmentProvider = Provider.of<EquipmentProvider>(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Relatórios'),
+        title: Text(localizations.reports),
         backgroundColor: const Color(0xFFF2D4AE),
       ),
       body: Stack(
@@ -99,7 +102,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       child: AbsorbPointer(
                         child: TextFormField(
                           decoration: InputDecoration(
-                            labelText: 'Data do Trabalho',
+                            labelText: localizations.workDate,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -115,7 +118,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           validator:
                               (value) =>
                                   value == null || value.isEmpty
-                                      ? 'Selecione uma data'
+                                      ? localizations.selectDate
                                       : null,
                         ),
                       ),
@@ -125,7 +128,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     TextFormField(
                       controller: _descriptionController,
                       decoration: InputDecoration(
-                        labelText: 'Descrição do Serviço',
+                        labelText: localizations.serviceDescription,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -136,7 +139,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       validator:
                           (value) =>
                               value == null || value.isEmpty
-                                  ? 'Insira uma descrição'
+                                  ? localizations.enterDescription
                                   : null,
                     ),
                     const SizedBox(height: 16),
@@ -144,7 +147,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     TextFormField(
                       controller: _issuesController,
                       decoration: InputDecoration(
-                        labelText: 'Problemas Encontrados (opcional)',
+                        labelText: localizations.issuesFoundOptional,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -158,31 +161,31 @@ class _ReportScreenState extends State<ReportScreen> {
                     DropdownButtonFormField<String>(
                       value: _status,
                       decoration: InputDecoration(
-                        labelText: 'Status',
+                        labelText: localizations.status,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
-                      items: const [
+                      items: [
                         DropdownMenuItem(
                           value: 'Concluído',
-                          child: Text('Concluído'),
+                          child: Text(localizations.completed),
                         ),
                         DropdownMenuItem(
                           value: 'Pendente',
-                          child: Text('Pendente'),
+                          child: Text(localizations.pending),
                         ),
                         DropdownMenuItem(
                           value: 'Em Andamento',
-                          child: Text('Em Andamento'),
+                          child: Text(localizations.inProgress),
                         ),
                       ],
                       onChanged: (value) => setState(() => _status = value),
                       validator:
                           (value) =>
-                              value == null ? 'Selecione um status' : null,
+                              value == null ? localizations.selectStatus : null,
                     ),
                     const SizedBox(height: 24),
                     // Botão de envio
@@ -204,9 +207,9 @@ class _ReportScreenState extends State<ReportScreen> {
                               ? const CircularProgressIndicator(
                                 color: Colors.black,
                               )
-                              : const Text(
-                                'Enviar Relatório',
-                                style: TextStyle(
+                              : Text(
+                                localizations.submitReport,
+                                style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,

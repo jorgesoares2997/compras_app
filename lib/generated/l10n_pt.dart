@@ -37,4 +37,46 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get logout => 'Sair';
+
+  @override
+  String get reports => 'Relatórios';
+
+  @override
+  String get workDate => 'Data do Trabalho';
+
+  @override
+  String get selectDate => 'Selecione uma data';
+
+  @override
+  String get serviceDescription => 'Descrição do Serviço';
+
+  @override
+  String get enterDescription => 'Insira uma descrição';
+
+  @override
+  String get issuesFoundOptional => 'Problemas Encontrados (opcional)';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get completed => 'Concluído';
+
+  @override
+  String get pending => 'Pendente';
+
+  @override
+  String get inProgress => 'Em Andamento';
+
+  @override
+  String get selectStatus => 'Selecione um status';
+
+  @override
+  String get submitReport => 'Enviar Relatório';
+
+  @override
+  String get reportSubmittedSuccess => 'Relatório enviado com sucesso!';
+
+  @override
+  String get reportSubmissionError => 'Erro ao enviar relatório';
 }
