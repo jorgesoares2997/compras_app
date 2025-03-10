@@ -1,6 +1,7 @@
 version: "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)"
 options: "901e0153c09283b26556c4e48632aa086ddbe4fbb24ae64fcd8599d752e5e3b3"
 <<<<<<< HEAD
+<<<<<<< HEAD
 build_start_time: [1741630705, 494416000]
 build_end_time: [1741630708, 992927000]
 inputs:
@@ -12,5 +13,12 @@ build_end_time: [1741629438, 128604000]
 inputs:
   ? "/Users/jorgesoares/Desktop/compras_app/ios/DerivedData2/Runner/Index.noindex/Build/Intermediates.noindex/Runner.build/Debug-iphoneos/Runner.build/DerivedSources/GeneratedAssetSymbols.swift"
   : [1741629388, 724851592]
+>>>>>>> new-icon
+=======
+build_start_time: [1741635947, 722686000]
+build_end_time: [1741635948, 789402000]
+inputs:
+  ? "/Users/jorgesoares/Desktop/compras_app/ios/DerivedData2/Runner/Index.noindex/Build/Intermediates.noindex/Runner.build/Debug-iphoneos/Runner.build/DerivedSources/GeneratedAssetSymbols.swift"
+  : [1741635932, 192518592]
 >>>>>>> new-icon
   "/Users/jorgesoares/Desktop/compras_app/ios/Runner/AppDelegate.swift": [1740749116, 196132324]
