@@ -106,7 +106,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: AppLocalizationsDelegate.supportedLocales,
       locale: themeProvider.currentLocale,
       debugShowCheckedModeBanner: false,
-      title: 'Compras App',
+      title: 'Audio IBP',
       theme: ThemeProvider.lightTheme,
       darkTheme: ThemeProvider.darkTheme,
       themeMode: themeProvider.themeMode,

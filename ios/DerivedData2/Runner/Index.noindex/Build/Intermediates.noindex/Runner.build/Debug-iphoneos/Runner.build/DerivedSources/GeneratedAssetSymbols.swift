@@ -36,6 +36,7 @@ extension ImageResource {
 
 }
 
+<<<<<<< HEAD
 // MARK: - Color Symbol Extensions -
 
 #if canImport(AppKit)
@@ -240,6 +241,8 @@ extension UIKit.UIImage {
 }
 #endif
 
+=======
+>>>>>>> new-icon
 // MARK: - Backwards Deployment Support -
 
 /// A color resource.
