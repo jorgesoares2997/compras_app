@@ -20,18 +20,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Inicializar notificações
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-  );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  await _initNotifications(); // Inicializar notificações
 
   final authService = AuthService();
   final token = await authService.getToken();
@@ -40,22 +35,10 @@ void main() async {
   final bool onboardingCompleted =
       prefs.getBool('onboarding_completed') ?? false;
 
-  if (Platform.isAndroid) {
-    print('Requesting notification permission');
-    final androidPlugin =
-        flutterLocalNotificationsPlugin
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
-    final granted = await androidPlugin?.requestNotificationsPermission();
-    print('Permission granted: $granted');
-  }
   runApp(
     MultiProvider(
       providers: [
-        Provider.value(
-          value: flutterLocalNotificationsPlugin,
-        ), // Adiciona o plugin ao Provider
+        Provider.value(value: flutterLocalNotificationsPlugin),
         ChangeNotifierProvider(create: (context) => EquipmentProvider()),
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
       ],
@@ -67,6 +50,34 @@ void main() async {
       ),
     ),
   );
+}
+
+/// Inicializa as configurações para notificações locais
+Future<void> _initNotifications() async {
+  const AndroidInitializationSettings androidSettings =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  final DarwinInitializationSettings iosSettings = DarwinInitializationSettings(
+    requestSoundPermission: true,
+    requestBadgePermission: true,
+    requestAlertPermission: true,
+  );
+
+  InitializationSettings settings = InitializationSettings(
+    android: androidSettings,
+    iOS: iosSettings,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(settings);
+
+  // Solicita permissões no iOS
+  if (Platform.isIOS) {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -105,9 +116,31 @@ class MyApp extends StatelessWidget {
         '/add_equipment': (context) => const AddEquipmentScreen(),
       },
       onUnknownRoute: (settings) {
-        // Redirecionar para /main se a rota for desconhecida
         return MaterialPageRoute(builder: (context) => const MainScreen());
       },
     );
   }
+}
+
+/// Exibe uma notificação local na barra do celular
+Future<void> showNotification(String title, String body) async {
+  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    'compras_app_channel', // ID único do canal
+    'Notificações do Compras App',
+    importance: Importance.max,
+    priority: Priority.high,
+    playSound: true,
+  );
+
+  const NotificationDetails details = NotificationDetails(
+    android: androidDetails,
+    iOS: DarwinNotificationDetails(),
+  );
+
+  await flutterLocalNotificationsPlugin.show(
+    0, // ID da notificação
+    title,
+    body,
+    details,
+  );
 }

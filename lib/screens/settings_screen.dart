@@ -1,5 +1,7 @@
 import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/ParticleBackground.dart';
+import 'package:compras_app/main.dart';
+import 'package:compras_app/providers/showCustomLanguagePopup.dart';
 import 'package:compras_app/screens/login_screen.dart';
 import 'package:compras_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -93,10 +95,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 newLocale = const Locale('pt');
                             }
                             themeProvider.setLocale(newLocale);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Idioma alterado para $value'),
-                              ),
+                            showNotification(
+                              "Idioma Alterado",
+                              "O idioma foi alterado para $value",
                             );
                           });
                         },
