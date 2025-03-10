@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/localization.dart';
 import 'package:compras_app/providers/equipment_provider.dart';
@@ -38,6 +40,16 @@ void main() async {
   final bool onboardingCompleted =
       prefs.getBool('onboarding_completed') ?? false;
 
+  if (Platform.isAndroid) {
+    print('Requesting notification permission');
+    final androidPlugin =
+        flutterLocalNotificationsPlugin
+            .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin
+            >();
+    final granted = await androidPlugin?.requestNotificationsPermission();
+    print('Permission granted: $granted');
+  }
   runApp(
     MultiProvider(
       providers: [

@@ -6,17 +6,18 @@ class NotificationService {
 
   NotificationService(this._notificationsPlugin);
 
-  // Configurações padrão para Android e iOS
+  // Configurações para Android
   static const AndroidNotificationDetails _androidDetails =
       AndroidNotificationDetails(
-        'general_channel',
-        'General Notifications',
-        channelDescription: 'Channel for general app notifications',
+        'urgent_equipment_channel', // ID único do canal
+        'Urgent Equipment Notifications', // Nome visível ao usuário
+        channelDescription: 'Notificações para equipamentos urgentes',
         importance: Importance.max,
         priority: Priority.high,
         showWhen: true,
       );
 
+  // Configurações para iOS
   static const DarwinNotificationDetails _iOSDetails =
       DarwinNotificationDetails(
         presentAlert: true,
@@ -24,26 +25,31 @@ class NotificationService {
         presentSound: true,
       );
 
+  // Detalhes da plataforma
   static const NotificationDetails _platformDetails = NotificationDetails(
     android: _androidDetails,
     iOS: _iOSDetails,
   );
 
-  // Exibir uma notificação imediata
+  // Exibir notificação imediata
   Future<void> showNotification({
     required int id,
     required String title,
     required String body,
   }) async {
     try {
+      print(
+        'Attempting to show notification: ID=$id, Title=$title, Body=$body',
+      );
       await _notificationsPlugin.show(id, title, body, _platformDetails);
+      print('Notification shown successfully');
     } catch (e) {
       print('Error showing notification: $e');
-      rethrow; // Relança a exceção para ser capturada no _submitForm
+      rethrow;
     }
   }
 
-  // Agendar uma notificação para um horário específico
+  // Agendar notificação (se necessário)
   Future<void> scheduleNotification({
     required int id,
     required String title,
@@ -51,6 +57,9 @@ class NotificationService {
     required DateTime scheduledDate,
   }) async {
     try {
+      print(
+        'Scheduling notification: ID=$id, Title=$title, Body=$body, Date=$scheduledDate',
+      );
       await _notificationsPlugin.zonedSchedule(
         id,
         title,
@@ -61,19 +70,10 @@ class NotificationService {
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.dateAndTime,
       );
+      print('Notification scheduled successfully');
     } catch (e) {
       print('Error scheduling notification: $e');
       rethrow;
     }
-  }
-
-  // Cancelar uma notificação específica
-  Future<void> cancelNotification(int id) async {
-    await _notificationsPlugin.cancel(id);
-  }
-
-  // Cancelar todas as notificações
-  Future<void> cancelAllNotifications() async {
-    await _notificationsPlugin.cancelAll();
   }
 }
