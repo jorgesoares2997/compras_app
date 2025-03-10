@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>LastAccessedDate</key>
+<<<<<<< HEAD
 	<date>2025-03-10T18:18:21Z</date>
+=======
+	<date>2025-03-10T18:13:32Z</date>
+>>>>>>> new-icon
 	<key>WorkspacePath</key>
 	<string>../../Runner.xcworkspace</string>
 </dict>
