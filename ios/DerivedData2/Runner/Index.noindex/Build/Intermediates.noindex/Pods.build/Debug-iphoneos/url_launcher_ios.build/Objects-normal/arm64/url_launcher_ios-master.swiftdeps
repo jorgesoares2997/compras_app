@@ -1,12 +1,12 @@
 version: "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)"
 options: "3c1b3f71e73321bb447567f1f17e06da87a0ca1117fb0bd065d467b81ae00831"
-build_start_time: [1741629433, 85815000]
-build_end_time: [1741629433, 320974000]
+build_start_time: [1741635610, 125566000]
+build_end_time: [1741635611, 825978000]
 inputs:
-  "/Users/jorgesoares/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.2/ios/url_launcher_ios/Sources/url_launcher_ios/Launcher.swift": [1741051502, 79152458]
+  "/Users/jorgesoares/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.2/ios/url_launcher_ios/Sources/url_launcher_ios/Launcher.swift": !dirty [1741051502, 79152458]
   ? "/Users/jorgesoares/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.2/ios/url_launcher_ios/Sources/url_launcher_ios/URLLaunchSession.swift"
-  : [1741051502, 80064394]
+  : !dirty [1741051502, 80064394]
   ? "/Users/jorgesoares/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.2/ios/url_launcher_ios/Sources/url_launcher_ios/URLLauncherPlugin.swift"
-  : [1741051502, 80636797]
+  : !dirty [1741051502, 80636797]
   ? "/Users/jorgesoares/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.2/ios/url_launcher_ios/Sources/url_launcher_ios/messages.g.swift"
-  : [1741051502, 81340489]
+  : !dirty [1741051502, 81340489]
