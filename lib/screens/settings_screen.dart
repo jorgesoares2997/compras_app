@@ -155,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onTap: () {
                         showAboutDialog(
                           context: context,
-                          applicationName: 'Compras App',
+                          applicationName: 'Audio IBP',
                           applicationVersion: '1.0.0',
                           applicationLegalese: '© 2025 Jorge Soares',
                         );
