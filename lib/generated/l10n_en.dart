@@ -9,6 +9,27 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get authenticateWithBiometrics => 'Authenticate using your biometrics';
+
+  @override
+  String get biometricsNotSupported => 'Your device does not support biometric authentication';
+
+  @override
+  String get biometricsNotConfigured => 'No biometrics configured on this device';
+
+  @override
+  String get biometricsError => 'Error while attempting biometric authentication';
+
+  @override
+  String get biometricsFailed => 'Biometric authentication failed';
+
+  @override
+  String get noSavedCredentials => 'No saved credentials found. Please log in manually first.';
+
+  @override
+  String get loginWithBiometrics => 'Login with biometrics';
+
+  @override
   String get settings => 'Settings';
 
   @override
@@ -57,6 +78,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get issuesFoundOptional => 'Issues Found (optional)';
 
   @override
+  String get enterEmail => 'Enter an email';
+
+  @override
+  String get invalidEmail => 'Please enter a valid email';
+
+  @override
+  String get enterPassword => 'Enter a password';
+
+  @override
+  String get passwordTooShort => 'Password must be at least 6 characters';
+
+  @override
+  String get loginFailed => 'Login failed';
+
+  @override
+  String get loginButton => 'Log In';
+
+  @override
+  String get noAccountRegister => 'Don\'t have an account? Register';
+
+  @override
   String get status => 'Status';
 
   @override
@@ -93,13 +135,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get email => 'Email';
 
   @override
-  String get enterEmail => 'Enter an email';
-
-  @override
   String get password => 'Password';
-
-  @override
-  String get enterPassword => 'Enter a password';
 
   @override
   String get registerButton => 'Register';
@@ -210,13 +246,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login => 'Login';
-
-  @override
-  String get loginButton => 'Log In';
-
-  @override
-  String get noAccountRegister => 'Don\'t have an account? Register';
-
-  @override
-  String get loginFailed => 'Login failed';
 }

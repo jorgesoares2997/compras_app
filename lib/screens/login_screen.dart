@@ -1,10 +1,11 @@
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/generated/l10n.dart';
+import 'package:compras_app/screens/register_screen.dart';
 import 'package:compras_app/services/auth_service.dart';
+import 'package:compras_app/services/report_service.dart';
 import 'package:flutter/material.dart';
-
-import 'main_screen.dart';
-import 'register_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,26 +18,58 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final AuthService _authService = AuthService();
   bool _isLoading = false;
 
-  Future<void> _login() async {
+  Future<void> testarRelatorios(BuildContext context) async {
+    final reportService = ReportService();
+    try {
+      final response = await reportService.listarTodosRelatorios();
+      print(
+        "Resposta da API de relatórios: ${response.statusCode} - ${response.data}",
+      );
+    } catch (e) {
+      print("Erro ao acessar relatórios: $e");
+    }
+  }
+
+  Future<void> _login(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      final token = await _authService.login(
-        _emailController.text,
-        _passwordController.text,
-      );
-      setState(() => _isLoading = false);
-      if (token != null) {
-        Navigator.pushReplacementNamed(context, '/main');
-      } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(localizations.loginFailed)));
+      try {
+        final authService = Provider.of<AuthService>(context, listen: false);
+        final token = await authService.login(
+          _emailController.text,
+          _passwordController.text,
+        );
+        setState(() => _isLoading = false);
+
+        if (token != null) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
+          await prefs.setString('email', _emailController.text);
+          await prefs.setString('password', _passwordController.text);
+          print("Token salvo após login: $token");
+          Navigator.pushReplacementNamed(context, '/main');
+        } else {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(localizations.loginFailed)));
+        }
+      } catch (e) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${localizations.loginFailed}: $e')),
+        );
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -70,11 +103,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       filled: true,
                       fillColor: Colors.white.withOpacity(0.8),
                     ),
-                    validator:
-                        (value) =>
-                            value == null || value.isEmpty
-                                ? localizations.enterEmail
-                                : null,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return localizations.enterEmail;
+                      }
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return localizations.invalidEmail;
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
@@ -88,15 +126,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       fillColor: Colors.white.withOpacity(0.8),
                     ),
                     obscureText: true,
-                    validator:
-                        (value) =>
-                            value == null || value.isEmpty
-                                ? localizations.enterPassword
-                                : null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return localizations.enterPassword;
+                      }
+                      if (value.length < 6) {
+                        return localizations.passwordTooShort;
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: _isLoading ? null : _login,
+                    onPressed: _isLoading ? null : () => _login(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFAEBF8A),
                       padding: const EdgeInsets.symmetric(vertical: 16),

@@ -9,6 +9,27 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
+  String get authenticateWithBiometrics => 'Autentique-se usando sua biometria';
+
+  @override
+  String get biometricsNotSupported => 'Seu dispositivo não suporta autenticação biométrica';
+
+  @override
+  String get biometricsNotConfigured => 'Nenhuma biometria configurada neste dispositivo';
+
+  @override
+  String get biometricsError => 'Erro ao tentar autenticação biométrica';
+
+  @override
+  String get biometricsFailed => 'Falha na autenticação biométrica';
+
+  @override
+  String get noSavedCredentials => 'Nenhuma credencial salva encontrada. Por favor, faça login manualmente primeiro.';
+
+  @override
+  String get loginWithBiometrics => 'Entrar com biometria';
+
+  @override
   String get settings => 'Configurações';
 
   @override
@@ -57,6 +78,27 @@ class AppLocalizationsPt extends AppLocalizations {
   String get issuesFoundOptional => 'Problemas Encontrados (opcional)';
 
   @override
+  String get enterEmail => 'Por favor, insira seu e-mail';
+
+  @override
+  String get invalidEmail => 'Por favor, insira um e-mail válido';
+
+  @override
+  String get enterPassword => 'Por favor, insira sua senha';
+
+  @override
+  String get passwordTooShort => 'A senha deve ter pelo menos 6 caracteres';
+
+  @override
+  String get loginFailed => 'Falha no login';
+
+  @override
+  String get loginButton => 'Entrar';
+
+  @override
+  String get noAccountRegister => 'Não tem conta? Registre-se';
+
+  @override
   String get status => 'Status';
 
   @override
@@ -90,16 +132,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get enterName => 'Insira um nome';
 
   @override
-  String get email => 'Email';
-
-  @override
-  String get enterEmail => 'Insira um email';
+  String get email => 'E-mail';
 
   @override
   String get password => 'Senha';
-
-  @override
-  String get enterPassword => 'Insira uma senha';
 
   @override
   String get registerButton => 'Registrar';
@@ -210,13 +246,4 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get login => 'Login';
-
-  @override
-  String get loginButton => 'Entrar';
-
-  @override
-  String get noAccountRegister => 'Não tem conta? Registre-se';
-
-  @override
-  String get loginFailed => 'Falha no login';
 }

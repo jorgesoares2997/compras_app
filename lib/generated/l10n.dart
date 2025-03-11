@@ -97,6 +97,48 @@ abstract class AppLocalizations {
     Locale('pt')
   ];
 
+  /// No description provided for @authenticateWithBiometrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Authenticate using your biometrics'**
+  String get authenticateWithBiometrics;
+
+  /// No description provided for @biometricsNotSupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Your device does not support biometric authentication'**
+  String get biometricsNotSupported;
+
+  /// No description provided for @biometricsNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'No biometrics configured on this device'**
+  String get biometricsNotConfigured;
+
+  /// No description provided for @biometricsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error while attempting biometric authentication'**
+  String get biometricsError;
+
+  /// No description provided for @biometricsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication failed'**
+  String get biometricsFailed;
+
+  /// No description provided for @noSavedCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved credentials found. Please log in manually first.'**
+  String get noSavedCredentials;
+
+  /// No description provided for @loginWithBiometrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Login with biometrics'**
+  String get loginWithBiometrics;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -193,6 +235,48 @@ abstract class AppLocalizations {
   /// **'Issues Found (optional)'**
   String get issuesFoundOptional;
 
+  /// No description provided for @enterEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an email'**
+  String get enterEmail;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get invalidEmail;
+
+  /// No description provided for @enterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a password'**
+  String get enterPassword;
+
+  /// No description provided for @passwordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordTooShort;
+
+  /// No description provided for @loginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed'**
+  String get loginFailed;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get loginButton;
+
+  /// No description provided for @noAccountRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Register'**
+  String get noAccountRegister;
+
   /// No description provided for @status.
   ///
   /// In en, this message translates to:
@@ -265,23 +349,11 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get email;
 
-  /// No description provided for @enterEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter an email'**
-  String get enterEmail;
-
   /// No description provided for @password.
   ///
   /// In en, this message translates to:
   /// **'Password'**
   String get password;
-
-  /// No description provided for @enterPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a password'**
-  String get enterPassword;
 
   /// No description provided for @registerButton.
   ///
@@ -486,24 +558,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get login;
-
-  /// No description provided for @loginButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Log In'**
-  String get loginButton;
-
-  /// No description provided for @noAccountRegister.
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t have an account? Register'**
-  String get noAccountRegister;
-
-  /// No description provided for @loginFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Login failed'**
-  String get loginFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

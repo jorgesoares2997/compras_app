@@ -4,6 +4,7 @@ import 'package:compras_app/providers/equipment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/report.dart';
 
 class ReportScreen extends StatefulWidget {
@@ -58,14 +59,34 @@ class _ReportScreenState extends State<ReportScreen> {
           listen: false,
         ).addReport(report);
         if (!mounted) return;
+
+        // Exibe mensagem de sucesso
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(localizations.reportSubmittedSuccess)),
+          SnackBar(
+            content: Text(localizations.reportSubmittedSuccess),
+            backgroundColor: Colors.green,
+            duration: const Duration(seconds: 2),
+          ),
         );
-        Navigator.pop(context);
+
+        // Aguarda um pouco para o usuário ver a mensagem antes de redirecionar
+        await Future.delayed(const Duration(seconds: 2));
+
+        if (!mounted) return;
+
+        // Redireciona para a MainScreen
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/main',
+          (route) => false, // Remove todas as rotas anteriores
+        );
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${localizations.reportSubmissionError}: $e')),
+          SnackBar(
+            content: Text('${localizations.reportSubmissionError}: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -83,11 +104,9 @@ class _ReportScreenState extends State<ReportScreen> {
       ),
       body: Stack(
         children: [
-          // Fundo de partículas
           const ParticleBackground(
             backgroundColor: Color.fromARGB(255, 244, 244, 39),
           ),
-          // Formulário
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 120, 16, 16),
             child: Form(
@@ -96,7 +115,6 @@ class _ReportScreenState extends State<ReportScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Data do trabalho
                     GestureDetector(
                       onTap: () => _selectDate(context),
                       child: AbsorbPointer(
@@ -124,7 +142,6 @@ class _ReportScreenState extends State<ReportScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Descrição do serviço
                     TextFormField(
                       controller: _descriptionController,
                       decoration: InputDecoration(
@@ -143,7 +160,6 @@ class _ReportScreenState extends State<ReportScreen> {
                                   : null,
                     ),
                     const SizedBox(height: 16),
-                    // Problemas encontrados (opcional)
                     TextFormField(
                       controller: _issuesController,
                       decoration: InputDecoration(
@@ -157,7 +173,6 @@ class _ReportScreenState extends State<ReportScreen> {
                       maxLines: 2,
                     ),
                     const SizedBox(height: 16),
-                    // Status
                     DropdownButtonFormField<String>(
                       value: _status,
                       decoration: InputDecoration(
@@ -188,7 +203,6 @@ class _ReportScreenState extends State<ReportScreen> {
                               value == null ? localizations.selectStatus : null,
                     ),
                     const SizedBox(height: 24),
-                    // Botão de envio
                     ElevatedButton(
                       onPressed:
                           equipmentProvider.isLoading
@@ -221,7 +235,6 @@ class _ReportScreenState extends State<ReportScreen> {
               ),
             ),
           ),
-          // Indicadores de loading e erro
           if (equipmentProvider.isLoading)
             const Center(child: CircularProgressIndicator()),
           if (equipmentProvider.errorMessage != null)
