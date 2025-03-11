@@ -57,6 +57,27 @@ class AppLocalizationsPt extends AppLocalizations {
   String get issuesFoundOptional => 'Problemas Encontrados (opcional)';
 
   @override
+  String get enterEmail => 'Por favor, insira seu e-mail';
+
+  @override
+  String get invalidEmail => 'Por favor, insira um e-mail válido';
+
+  @override
+  String get enterPassword => 'Por favor, insira sua senha';
+
+  @override
+  String get passwordTooShort => 'A senha deve ter pelo menos 6 caracteres';
+
+  @override
+  String get loginFailed => 'Falha no login';
+
+  @override
+  String get loginButton => 'Entrar';
+
+  @override
+  String get noAccountRegister => 'Não tem conta? Registre-se';
+
+  @override
   String get status => 'Status';
 
   @override
@@ -90,16 +111,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get enterName => 'Insira um nome';
 
   @override
-  String get email => 'Email';
-
-  @override
-  String get enterEmail => 'Insira um email';
+  String get email => 'E-mail';
 
   @override
   String get password => 'Senha';
-
-  @override
-  String get enterPassword => 'Insira uma senha';
 
   @override
   String get registerButton => 'Registrar';
@@ -210,13 +225,4 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get login => 'Login';
-
-  @override
-  String get loginButton => 'Entrar';
-
-  @override
-  String get noAccountRegister => 'Não tem conta? Registre-se';
-
-  @override
-  String get loginFailed => 'Falha no login';
 }

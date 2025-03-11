@@ -193,6 +193,48 @@ abstract class AppLocalizations {
   /// **'Issues Found (optional)'**
   String get issuesFoundOptional;
 
+  /// No description provided for @enterEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an email'**
+  String get enterEmail;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email'**
+  String get invalidEmail;
+
+  /// No description provided for @enterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a password'**
+  String get enterPassword;
+
+  /// No description provided for @passwordTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters'**
+  String get passwordTooShort;
+
+  /// No description provided for @loginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed'**
+  String get loginFailed;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log In'**
+  String get loginButton;
+
+  /// No description provided for @noAccountRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Register'**
+  String get noAccountRegister;
+
   /// No description provided for @status.
   ///
   /// In en, this message translates to:
@@ -265,23 +307,11 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get email;
 
-  /// No description provided for @enterEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter an email'**
-  String get enterEmail;
-
   /// No description provided for @password.
   ///
   /// In en, this message translates to:
   /// **'Password'**
   String get password;
-
-  /// No description provided for @enterPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter a password'**
-  String get enterPassword;
 
   /// No description provided for @registerButton.
   ///
@@ -486,24 +516,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Login'**
   String get login;
-
-  /// No description provided for @loginButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Log In'**
-  String get loginButton;
-
-  /// No description provided for @noAccountRegister.
-  ///
-  /// In en, this message translates to:
-  /// **'Don\'t have an account? Register'**
-  String get noAccountRegister;
-
-  /// No description provided for @loginFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Login failed'**
-  String get loginFailed;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

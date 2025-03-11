@@ -57,6 +57,27 @@ class AppLocalizationsEs extends AppLocalizations {
   String get issuesFoundOptional => 'Problemas Encontrados (opcional)';
 
   @override
+  String get enterEmail => 'Por favor, introduce tu correo electrónico';
+
+  @override
+  String get invalidEmail => 'Por favor, introduce un correo electrónico válido';
+
+  @override
+  String get enterPassword => 'Por favor, introduce tu contraseña';
+
+  @override
+  String get passwordTooShort => 'La contraseña debe tener al menos 6 caracteres';
+
+  @override
+  String get loginFailed => 'Fallo en el inicio de sesión';
+
+  @override
+  String get loginButton => 'Iniciar Sesión';
+
+  @override
+  String get noAccountRegister => '¿No tienes cuenta? Regístrate';
+
+  @override
   String get status => 'Estado';
 
   @override
@@ -90,16 +111,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enterName => 'Ingrese un nombre';
 
   @override
-  String get email => 'Correo';
-
-  @override
-  String get enterEmail => 'Ingrese un correo';
+  String get email => 'Correo electrónico';
 
   @override
   String get password => 'Contraseña';
-
-  @override
-  String get enterPassword => 'Ingrese una contraseña';
 
   @override
   String get registerButton => 'Registrar';
@@ -210,13 +225,4 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get login => 'Inicio de Sesión';
-
-  @override
-  String get loginButton => 'Iniciar Sesión';
-
-  @override
-  String get noAccountRegister => '¿No tienes cuenta? Regístrate';
-
-  @override
-  String get loginFailed => 'Fallo en el inicio de sesión';
 }
