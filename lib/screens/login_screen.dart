@@ -2,8 +2,10 @@ import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/screens/register_screen.dart';
 import 'package:compras_app/services/auth_service.dart';
+import 'package:compras_app/services/report_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -18,6 +20,18 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
+  Future<void> testarRelatorios(BuildContext context) async {
+    final reportService = ReportService();
+    try {
+      final response = await reportService.listarTodosRelatorios();
+      print(
+        "Resposta da API de relatórios: ${response.statusCode} - ${response.data}",
+      );
+    } catch (e) {
+      print("Erro ao acessar relatórios: $e");
+    }
+  }
+
   Future<void> _login(BuildContext context) async {
     final localizations = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
@@ -29,7 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
           _passwordController.text,
         );
         setState(() => _isLoading = false);
+
         if (token != null) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
+          await prefs.setString('email', _emailController.text);
+          await prefs.setString('password', _passwordController.text);
+          print("Token salvo após login: $token");
           Navigator.pushReplacementNamed(context, '/main');
         } else {
           ScaffoldMessenger.of(

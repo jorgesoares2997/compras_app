@@ -97,6 +97,48 @@ abstract class AppLocalizations {
     Locale('pt')
   ];
 
+  /// No description provided for @authenticateWithBiometrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Authenticate using your biometrics'**
+  String get authenticateWithBiometrics;
+
+  /// No description provided for @biometricsNotSupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Your device does not support biometric authentication'**
+  String get biometricsNotSupported;
+
+  /// No description provided for @biometricsNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'No biometrics configured on this device'**
+  String get biometricsNotConfigured;
+
+  /// No description provided for @biometricsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error while attempting biometric authentication'**
+  String get biometricsError;
+
+  /// No description provided for @biometricsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric authentication failed'**
+  String get biometricsFailed;
+
+  /// No description provided for @noSavedCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved credentials found. Please log in manually first.'**
+  String get noSavedCredentials;
+
+  /// No description provided for @loginWithBiometrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Login with biometrics'**
+  String get loginWithBiometrics;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:

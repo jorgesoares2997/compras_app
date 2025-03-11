@@ -9,6 +9,27 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
+  String get authenticateWithBiometrics => 'Autentique-se usando sua biometria';
+
+  @override
+  String get biometricsNotSupported => 'Seu dispositivo não suporta autenticação biométrica';
+
+  @override
+  String get biometricsNotConfigured => 'Nenhuma biometria configurada neste dispositivo';
+
+  @override
+  String get biometricsError => 'Erro ao tentar autenticação biométrica';
+
+  @override
+  String get biometricsFailed => 'Falha na autenticação biométrica';
+
+  @override
+  String get noSavedCredentials => 'Nenhuma credencial salva encontrada. Por favor, faça login manualmente primeiro.';
+
+  @override
+  String get loginWithBiometrics => 'Entrar com biometria';
+
+  @override
   String get settings => 'Configurações';
 
   @override

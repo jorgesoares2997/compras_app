@@ -9,6 +9,27 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get authenticateWithBiometrics => 'Authenticate using your biometrics';
+
+  @override
+  String get biometricsNotSupported => 'Your device does not support biometric authentication';
+
+  @override
+  String get biometricsNotConfigured => 'No biometrics configured on this device';
+
+  @override
+  String get biometricsError => 'Error while attempting biometric authentication';
+
+  @override
+  String get biometricsFailed => 'Biometric authentication failed';
+
+  @override
+  String get noSavedCredentials => 'No saved credentials found. Please log in manually first.';
+
+  @override
+  String get loginWithBiometrics => 'Login with biometrics';
+
+  @override
   String get settings => 'Settings';
 
   @override

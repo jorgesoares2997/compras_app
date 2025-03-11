@@ -2,15 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
-	<string>shared</string>
-	<string>Foundation</string>
 	<string>XCTest</string>
 	<string>SafariServices</string>
+	<string>LocalAuthentication</string>
+	<string>UserNotifications</string>
 	<string>FlutterMacOS</string>
 	<string>Flutter</string>
-	<string>UserNotifications</string>
+	<string>url</string>
+	<string>local</string>
+	<string>shared</string>
 	<string>UIKit</string>
 	<string>flutter</string>
-	<string>url</string>
+	<string>Foundation</string>
 </array>
 </plist>
