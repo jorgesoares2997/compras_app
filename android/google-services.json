@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "911266742263",
+    "project_id": "gothic-augury-446012-u0",
+    "storage_bucket": "gothic-augury-446012-u0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911266742263:android:8afc4eaa7e1529fc9a78f2",
+        "android_client_info": {
+          "package_name": "com.jorge.compras_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911266742263-9l2baajv8bcc7qblqf7k3082dises9ni.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jorge.compras_app",
+            "certificate_hash": "297b66d9f8fbc278a3202ba734df0eebb0edcd79"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC63hCLFJlDss4iqWb2Popw3uLl0-EOSCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911266742263-jm27q7p4v862mdic2p7ntacmpocutat8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jorge.compras_app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,6 +6,8 @@ import 'package:compras_app/services/report_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart'; // Adicionado
+import 'package:sign_in_with_apple/sign_in_with_apple.dart'; // Adicionado
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,6 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  // Configuração do Google Sign-In
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId:
+        '911266742263-jm27q7p4v862mdic2p7ntacmpocutat8.apps.googleusercontent.com', // Opcional, dependendo da plataforma
+    scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+  );
 
   Future<void> testarRelatorios(BuildContext context) async {
     final reportService = ReportService();
@@ -65,6 +74,75 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  // Função para login com Google
+  Future<void> _loginWithGoogle(BuildContext context) async {
+    setState(() => _isLoading = true);
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        setState(() => _isLoading = false);
+        return; // Usuário cancelou o login
+      }
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final authService = Provider.of<AuthService>(context, listen: false);
+      final token = await authService.loginWithGoogle(googleAuth.accessToken!);
+
+      setState(() => _isLoading = false);
+      if (token != null) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        await prefs.setString('email', googleUser.email);
+        Navigator.pushReplacementNamed(context, '/main');
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Google login failed')));
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Google login error: $e')));
+    }
+  }
+
+  // Função para login com Apple
+  Future<void> _loginWithApple(BuildContext context) async {
+    setState(() => _isLoading = true);
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      final authService = Provider.of<AuthService>(context, listen: false);
+      final token = await authService.loginWithApple(
+        appleCredential.identityToken!,
+      );
+
+      setState(() => _isLoading = false);
+      if (token != null) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        if (appleCredential.email != null) {
+          await prefs.setString('email', appleCredential.email!);
+        }
+        Navigator.pushReplacementNamed(context, '/main');
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Apple login failed')));
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Apple login error: $e')));
+    }
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -105,12 +183,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.isEmpty)
                         return localizations.enterEmail;
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value))
                         return localizations.invalidEmail;
-                      }
                       return null;
                     },
                   ),
@@ -127,12 +203,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     obscureText: true,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
+                      if (value == null || value.isEmpty)
                         return localizations.enterPassword;
-                      }
-                      if (value.length < 6) {
+                      if (value.length < 6)
                         return localizations.passwordTooShort;
-                      }
                       return null;
                     },
                   ),
@@ -161,6 +235,46 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                   ),
+                  const SizedBox(height: 16),
+                  // Botão de Login com Google
+                  ElevatedButton.icon(
+                    onPressed:
+                        _isLoading ? null : () => _loginWithGoogle(context),
+                    icon: const Icon(Icons.g_mobiledata, color: Colors.black),
+                    label: const Text(
+                      'Login com Google',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Botão de Login com Apple
+                  if (Theme.of(context).platform ==
+                      TargetPlatform.iOS) // Mostra apenas no iOS
+                    ElevatedButton.icon(
+                      onPressed:
+                          _isLoading ? null : () => _loginWithApple(context),
+                      icon: const Icon(Icons.apple, color: Colors.black),
+                      label: const Text(
+                        'Login com Apple',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        minimumSize: const Size(double.infinity, 50),
+                      ),
+                    ),
                   const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
