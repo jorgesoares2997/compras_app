@@ -9,9 +9,7 @@ import '../providers/equipment_provider.dart';
 import '../widgets/equipment_card.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({
-    super.key,
-  }); // Adicionei o construtor padrão com chave opcional
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -27,11 +25,34 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _handleEdit(Equipment equipment) {
-    print('Editar equipamento: ${equipment.id}');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddEquipmentScreen(equipment: equipment),
+      ),
+    );
   }
 
-  void _handleDelete(Equipment equipment) {
-    print('Deletar equipamento: ${equipment.id}');
+  void _handleAdd() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AddEquipmentScreen()),
+    );
+  }
+
+  void _handleDelete(Equipment equipment) async {
+    final provider = Provider.of<EquipmentProvider>(context, listen: false);
+    final localizations = AppLocalizations.of(context)!;
+    try {
+      await provider.deleteEquipment(equipment.id!);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(localizations.deleteSuccess)));
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(localizations.deleteError)));
+    }
   }
 
   @override
@@ -48,11 +69,35 @@ class _HomeScreenState extends State<HomeScreen> {
               AppBar(
                 title: Text(localizations.manageItems),
                 backgroundColor: const Color(0xFFF2D4AE),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: _handleAdd,
+                    tooltip: localizations.addItem,
+                  ),
+                ],
               ),
               Expanded(
                 child:
-                    equipmentProvider.equipments.isEmpty
+                    equipmentProvider.isLoading
                         ? const Center(child: CircularProgressIndicator())
+                        : equipmentProvider.error != null
+                        ? Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(localizations.errorLoading),
+                              const SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed:
+                                    () => equipmentProvider.fetchEquipments(),
+                                child: Text(localizations.retry),
+                              ),
+                            ],
+                          ),
+                        )
+                        : equipmentProvider.equipments.isEmpty
+                        ? Center(child: Text(localizations.noItems))
                         : CarouselSlider(
                           options: CarouselOptions(
                             height: 350.0,

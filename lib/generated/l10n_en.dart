@@ -162,6 +162,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get manageItems => 'Manage Items';
 
   @override
+  String get addItem => 'Add Item';
+
+  @override
+  String get noItems => 'No items found';
+
+  @override
+  String get errorLoading => 'Error loading items';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get deleteSuccess => 'Item deleted successfully';
+
+  @override
+  String get deleteError => 'Error deleting item';
+
+  @override
   String scheduleFor(Object date) {
     return 'Schedule for $date';
   }
@@ -174,6 +192,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scheduleToday => 'Today\'s Schedule';
+
+  @override
+  String get editItem => 'Edit Item';
+
+  @override
+  String get equipmentUpdatedSuccess => 'Equipment updated successfully';
+
+  @override
+  String get updateEquipment => 'Update Equipment';
+
+  @override
+  String equipmentAddError(Object error) {
+    return 'Error adding equipment: $error';
+  }
 
   @override
   String scheduleNotificationMessage(Object person) {
@@ -238,11 +270,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get equipmentAddedSuccess => 'Equipment added successfully!';
-
-  @override
-  String equipmentAddError(Object error) {
-    return 'Error adding equipment: $error';
-  }
 
   @override
   String get login => 'Login';

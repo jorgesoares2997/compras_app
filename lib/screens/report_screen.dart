@@ -1,11 +1,10 @@
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/generated/l10n.dart';
-import 'package:compras_app/providers/equipment_provider.dart';
+import 'package:compras_app/models/report.dart';
+import 'package:compras_app/providers/report_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../models/report.dart';
+import 'package:provider/provider.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({Key? key}) : super(key: key);
@@ -54,13 +53,12 @@ class _ReportScreenState extends State<ReportScreen> {
       );
 
       try {
-        await Provider.of<EquipmentProvider>(
+        await Provider.of<ReportProvider>(
           context,
           listen: false,
         ).addReport(report);
         if (!mounted) return;
 
-        // Exibe mensagem de sucesso
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.reportSubmittedSuccess),
@@ -69,17 +67,10 @@ class _ReportScreenState extends State<ReportScreen> {
           ),
         );
 
-        // Aguarda um pouco para o usuário ver a mensagem antes de redirecionar
         await Future.delayed(const Duration(seconds: 2));
-
         if (!mounted) return;
 
-        // Redireciona para a MainScreen
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          '/main',
-          (route) => false, // Remove todas as rotas anteriores
-        );
+        Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false);
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
@@ -94,7 +85,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final equipmentProvider = Provider.of<EquipmentProvider>(context);
+    final reportProvider = Provider.of<ReportProvider>(context);
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -205,7 +196,7 @@ class _ReportScreenState extends State<ReportScreen> {
                     const SizedBox(height: 24),
                     ElevatedButton(
                       onPressed:
-                          equipmentProvider.isLoading
+                          reportProvider.isLoading
                               ? null
                               : () => _submitReport(context),
                       style: ElevatedButton.styleFrom(
@@ -217,7 +208,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         minimumSize: const Size(double.infinity, 50),
                       ),
                       child:
-                          equipmentProvider.isLoading
+                          reportProvider.isLoading
                               ? const CircularProgressIndicator(
                                 color: Colors.black,
                               )
@@ -235,12 +226,13 @@ class _ReportScreenState extends State<ReportScreen> {
               ),
             ),
           ),
-          if (equipmentProvider.isLoading)
+          if (reportProvider.isLoading &&
+              !reportProvider.isLoading) // Remove duplicata
             const Center(child: CircularProgressIndicator()),
-          if (equipmentProvider.errorMessage != null)
+          if (reportProvider.errorMessage != null)
             Center(
               child: Text(
-                equipmentProvider.errorMessage!,
+                reportProvider.errorMessage!,
                 style: const TextStyle(color: Colors.red),
               ),
             ),
