@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // O plugin do Flutter deve ser aplicado após os plugins Android e Kotlin
     id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
 }
@@ -9,22 +9,20 @@ plugins {
 android {
     namespace = "com.example.compras_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973" // Definido explicitamente para atender aos plugins
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8 // Alterei para 1_8 por compatibilidade com desugaring
+        targetCompatibility = JavaVersion.VERSION_1_8
+        isCoreLibraryDesugaringEnabled = true // Habilita o desugaring
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_1_8.toString() // Alinhado com compileOptions
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.compras_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -33,8 +31,8 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // TODO: Adicione sua própria configuração de assinatura para o release
+            // Por enquanto, usando chaves de debug para `flutter run --release`
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -44,6 +42,7 @@ flutter {
     source = "../.."
 }
 
+<<<<<<< HEAD
 dependencies {
   // Import the Firebase BoM
   implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
@@ -54,4 +53,9 @@ dependencies {
 
   // Add the dependencies for any other desired Firebase products
   // https://firebase.google.com/docs/android/setup#available-libraries
+=======
+// Adiciona a dependência para o desugaring
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+>>>>>>> main
 }

@@ -6,8 +6,9 @@ import 'package:compras_app/services/report_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:google_sign_in/google_sign_in.dart'; // Adicionado
-import 'package:sign_in_with_apple/sign_in_with_apple.dart'; // Adicionado
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -25,8 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   // Configuração do Google Sign-In
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     clientId:
-        '911266742263-jm27q7p4v862mdic2p7ntacmpocutat8.apps.googleusercontent.com', // Opcional, dependendo da plataforma
-    scopes: ['email', 'https://www.googleapis.com/auth/userinfo.profile'],
+        '911266742263-jm27q7p4v862mdic2p7ntacmpocutat8.apps.googleusercontent.com',
+    scopes: ['email', 'profile'],
   );
 
   Future<void> testarRelatorios(BuildContext context) async {
@@ -78,13 +79,33 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _loginWithGoogle(BuildContext context) async {
     setState(() => _isLoading = true);
     try {
+      print('Iniciando login com Google...');
+
+      // Verifica se já existe uma sessão ativa
+      final currentUser = await _googleSignIn.signInSilently();
+      if (currentUser != null) {
+        print('Usuário já está logado: ${currentUser.email}');
+        await _googleSignIn
+            .signOut(); // Força logout para garantir uma nova sessão
+      }
+
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
+        print('Usuário cancelou o login com Google');
         setState(() => _isLoading = false);
-        return; // Usuário cancelou o login
+        return;
       }
+
+      print('Conta Google obtida: ${googleUser.email}');
+
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
+      print('Token de acesso obtido: ${googleAuth.accessToken}');
+
+      if (googleAuth.accessToken == null) {
+        throw Exception('Token de acesso não obtido do Google');
+      }
+
       final authService = Provider.of<AuthService>(context, listen: false);
       final token = await authService.loginWithGoogle(googleAuth.accessToken!);
 
@@ -95,51 +116,73 @@ class _LoginScreenState extends State<LoginScreen> {
         await prefs.setString('email', googleUser.email);
         Navigator.pushReplacementNamed(context, '/main');
       } else {
+        print('Falha no login com Google: token nulo');
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(const SnackBar(content: Text('Google login failed')));
       }
     } catch (e) {
       setState(() => _isLoading = false);
+      print('Erro detalhado no login com Google: $e');
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Google login error: $e')));
     }
   }
 
-  // Função para login com Apple
-  Future<void> _loginWithApple(BuildContext context) async {
+  // Função para login com GitHub
+  Future<void> _loginWithGithub(BuildContext context) async {
     setState(() => _isLoading = true);
     try {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
+      const clientId = 'Ov23liyx7BQ2HxANXlCy';
+      const redirectUri = 'comprasapp://oauth/callback';
+
+      final url = Uri.https('github.com', '/login/oauth/authorize', {
+        'client_id': clientId,
+        'redirect_uri': redirectUri,
+        'scope': 'user:email',
+        'state': DateTime.now().millisecondsSinceEpoch.toString(),
+      });
+
+      print('Iniciando autenticação GitHub com URL: $url');
+
+      final result = await FlutterWebAuth.authenticate(
+        url: url.toString(),
+        callbackUrlScheme: 'comprasapp',
       );
+
+      if (result == null) {
+        throw Exception('Autenticação cancelada');
+      }
+
+      print('GitHub Auth Result: $result');
+
+      final code = Uri.parse(result).queryParameters['code'];
+      if (code == null) {
+        throw Exception('No code received from GitHub');
+      }
+
+      print('GitHub Code: $code');
+
       final authService = Provider.of<AuthService>(context, listen: false);
-      final token = await authService.loginWithApple(
-        appleCredential.identityToken!,
-      );
+      final token = await authService.loginWithGithub(code);
 
       setState(() => _isLoading = false);
       if (token != null) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
-        if (appleCredential.email != null) {
-          await prefs.setString('email', appleCredential.email!);
-        }
         Navigator.pushReplacementNamed(context, '/main');
       } else {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Apple login failed')));
+        ).showSnackBar(const SnackBar(content: Text('GitHub login failed')));
       }
     } catch (e) {
       setState(() => _isLoading = false);
+      print('GitHub Error: $e');
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Apple login error: $e')));
+      ).showSnackBar(SnackBar(content: Text('GitHub login error: $e')));
     }
   }
 
@@ -255,26 +298,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Botão de Login com Apple
-                  if (Theme.of(context).platform ==
-                      TargetPlatform.iOS) // Mostra apenas no iOS
-                    ElevatedButton.icon(
-                      onPressed:
-                          _isLoading ? null : () => _loginWithApple(context),
-                      icon: const Icon(Icons.apple, color: Colors.black),
-                      label: const Text(
-                        'Login com Apple',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        minimumSize: const Size(double.infinity, 50),
-                      ),
+                  // Botão de Login com GitHub
+                  ElevatedButton.icon(
+                    onPressed:
+                        _isLoading ? null : () => _loginWithGithub(context),
+                    icon: const Icon(Icons.code, color: Colors.black),
+                    label: const Text(
+                      'Login com GitHub',
+                      style: TextStyle(color: Colors.black),
                     ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      minimumSize: const Size(double.infinity, 50),
+                    ),
+                  ),
                   const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {

@@ -162,6 +162,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get manageItems => 'Gerenciar Itens';
 
   @override
+  String get addItem => 'Adicionar Item';
+
+  @override
+  String get noItems => 'Nenhum item encontrado';
+
+  @override
+  String get errorLoading => 'Erro ao carregar itens';
+
+  @override
+  String get retry => 'Tentar novamente';
+
+  @override
+  String get deleteSuccess => 'Item deletado com sucesso';
+
+  @override
+  String get deleteError => 'Erro ao deletar item';
+
+  @override
   String scheduleFor(Object date) {
     return 'Escalar para $date';
   }
@@ -174,6 +192,20 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get scheduleToday => 'Escala Hoje';
+
+  @override
+  String get editItem => 'Editar Item';
+
+  @override
+  String get equipmentUpdatedSuccess => 'Equipamento atualizado com sucesso';
+
+  @override
+  String get updateEquipment => 'Atualizar Equipamento';
+
+  @override
+  String equipmentAddError(Object error) {
+    return 'Erro ao adicionar equipamento: $error';
+  }
 
   @override
   String scheduleNotificationMessage(Object person) {
@@ -238,11 +270,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get equipmentAddedSuccess => 'Equipamento adicionado com sucesso!';
-
-  @override
-  String equipmentAddError(Object error) {
-    return 'Erro ao adicionar equipamento: $error';
-  }
 
   @override
   String get login => 'Login';

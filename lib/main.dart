@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:compras_app/generated/l10n.dart';
 import 'package:compras_app/localization.dart';
+import 'package:compras_app/models/equipments.dart';
 import 'package:compras_app/providers/equipment_provider.dart';
+import 'package:compras_app/providers/report_provider.dart';
 import 'package:compras_app/providers/theme_provider.dart';
 import 'package:compras_app/screens/add_equipment_screen.dart';
 import 'package:compras_app/screens/calendar_screen.dart';
@@ -13,6 +15,8 @@ import 'package:compras_app/screens/register_screen.dart';
 import 'package:compras_app/screens/report_screen.dart';
 import 'package:compras_app/screens/settings_screen.dart';
 import 'package:compras_app/services/auth_service.dart';
+import 'package:compras_app/services/report_service.dart';
+import 'package:flutter/foundation.dart' show kIsWeb; // Import para kIsWeb
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -40,7 +44,8 @@ void main() async {
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  if (Platform.isAndroid) {
+  // Só executa em plataformas nativas, não na web
+  if (!kIsWeb && Platform.isAndroid) {
     final androidPlugin =
         flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
@@ -50,6 +55,7 @@ void main() async {
   }
 
   final authService = AuthService();
+  final reportService = ReportService();
   final token = await authService.getToken();
   final prefs = await SharedPreferences.getInstance();
   final bool onboardingCompleted =
@@ -62,9 +68,12 @@ void main() async {
           value: flutterLocalNotificationsPlugin,
         ),
         Provider<AuthService>.value(value: authService),
+        Provider<ReportService>.value(value: reportService),
+        ChangeNotifierProvider(create: (_) => EquipmentProvider()),
         ChangeNotifierProvider(
           create:
-              (context) => EquipmentProvider(
+              (context) => ReportProvider(
+                Provider.of<ReportService>(context, listen: false),
                 Provider.of<AuthService>(context, listen: false),
               ),
         ),
@@ -105,7 +114,7 @@ class MyApp extends StatelessWidget {
       themeMode: themeProvider.themeMode,
       initialRoute: initialRoute,
       routes: {
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => const HomeScreen(),
         '/onboarding': (context) => const OnboardingScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
@@ -113,7 +122,10 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => const SettingsScreen(),
         '/calendar': (context) => const CalendarScreen(),
         '/report': (context) => const ReportScreen(),
-        '/add_equipment': (context) => const AddEquipmentScreen(),
+        '/add_equipment': (context) {
+          final args = ModalRoute.of(context)?.settings.arguments as Equipment?;
+          return AddEquipmentScreen(equipment: args);
+        },
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(builder: (context) => const MainScreen());

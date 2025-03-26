@@ -1,12 +1,14 @@
 import 'package:compras_app/ParticleBackground.dart';
 import 'package:compras_app/generated/l10n.dart';
+import 'package:compras_app/models/equipments.dart';
+import 'package:compras_app/providers/equipment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/equipments.dart';
-import '../providers/equipment_provider.dart';
 
 class AddEquipmentScreen extends StatefulWidget {
-  const AddEquipmentScreen({Key? key}) : super(key: key);
+  final Equipment? equipment; // Opcional para edição
+
+  const AddEquipmentScreen({super.key, this.equipment});
 
   @override
   _AddEquipmentScreenState createState() => _AddEquipmentScreenState();
@@ -14,13 +16,34 @@ class AddEquipmentScreen extends StatefulWidget {
 
 class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
-  final _subtitleController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _imageController = TextEditingController();
-  final _linkController = TextEditingController();
+  late TextEditingController _titleController;
+  late TextEditingController _subtitleController;
+  late TextEditingController _priceController;
+  late TextEditingController _imageController;
+  late TextEditingController _linkController;
   String? _urgency;
   bool _mostUrgent = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Preenche os campos com valores do equipamento, se for edição
+    _titleController = TextEditingController(
+      text: widget.equipment?.title ?? '',
+    );
+    _subtitleController = TextEditingController(
+      text: widget.equipment?.subtitle ?? '',
+    );
+    _priceController = TextEditingController(
+      text: widget.equipment?.price?.toString() ?? '',
+    );
+    _imageController = TextEditingController(
+      text: widget.equipment?.image ?? '',
+    );
+    _linkController = TextEditingController(text: widget.equipment?.link ?? '');
+    _urgency = widget.equipment?.urgency ?? 'medium'; // Valor padrão
+    _mostUrgent = widget.equipment?.mostUrgent ?? false;
+  }
 
   @override
   void dispose() {
@@ -36,30 +59,42 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
     final localizations = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       final equipment = Equipment(
+        id: widget.equipment?.id, // Mantém o ID para edição
         title: _titleController.text,
-        subtitle: _subtitleController.text,
-        price: double.tryParse(_priceController.text) ?? 0.0,
-        image: _imageController.text.isNotEmpty ? _imageController.text : null,
-        link: _linkController.text.isNotEmpty ? _linkController.text : null,
+        subtitle:
+            _subtitleController.text.isEmpty ? null : _subtitleController.text,
+        price: double.parse(_priceController.text),
+        image: _imageController.text.isEmpty ? null : _imageController.text,
+        link: _linkController.text.isEmpty ? null : _linkController.text,
         urgency: _urgency,
         mostUrgent: _mostUrgent,
       );
 
+      final provider = Provider.of<EquipmentProvider>(context, listen: false);
+
       try {
-        await Provider.of<EquipmentProvider>(
-          context,
-          listen: false,
-        ).addEquipment(equipment);
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(localizations.equipmentAddedSuccess)),
-        );
+        if (widget.equipment == null) {
+          // Adicionar novo equipamento
+          await provider.addEquipment(equipment);
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(localizations.equipmentAddedSuccess)),
+          );
+        } else {
+          // Atualizar equipamento existente
+          await provider.updateEquipment(equipment);
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(localizations.equipmentUpdatedSuccess)),
+          );
+        }
         Navigator.pop(context);
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(localizations.equipmentAddError(e.toString())),
+            backgroundColor: Colors.red,
           ),
         );
       }
@@ -73,7 +108,11 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localizations.addItems),
+        title: Text(
+          widget.equipment == null
+              ? localizations.addItems
+              : localizations.editItem,
+        ),
         backgroundColor: const Color(0xFFF2D4AE),
       ),
       body: Stack(
@@ -82,7 +121,12 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
             backgroundColor: Color.fromARGB(255, 174, 242, 231),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 120, 16, 16),
+            padding: const EdgeInsets.fromLTRB(
+              16,
+              40,
+              16,
+              16,
+            ), // Reduzi o padding superior
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
@@ -116,11 +160,6 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.8),
                       ),
-                      validator:
-                          (value) =>
-                              value == null || value.isEmpty
-                                  ? localizations.enterSubtitle
-                                  : null,
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
@@ -233,7 +272,9 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
                                 color: Colors.black,
                               )
                               : Text(
-                                localizations.addEquipment,
+                                widget.equipment == null
+                                    ? localizations.addEquipment
+                                    : localizations.updateEquipment,
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 18,
@@ -246,8 +287,6 @@ class _AddEquipmentScreenState extends State<AddEquipmentScreen> {
               ),
             ),
           ),
-          if (equipmentProvider.isLoading)
-            const Center(child: CircularProgressIndicator()),
           if (equipmentProvider.errorMessage != null)
             Center(
               child: Text(

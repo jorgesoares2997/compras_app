@@ -76,63 +76,84 @@ class AuthService {
   // Login com Google
   Future<String?> loginWithGoogle(String accessToken) async {
     try {
+      print('Enviando requisição de login com Google...'); // Debug log
       final response = await http.post(
-        Uri.parse(
-          '$_baseUrl/google-login',
-        ), // Endpoint do seu backend para Google
+        Uri.parse('$_baseUrl/google-login'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'access_token': accessToken}),
       );
+
       print(
-        'Google Login - Status: ${response.statusCode}, Body: ${response.body}',
+        'Resposta do servidor Google: ${response.statusCode} - ${response.body}',
       );
+
       if (response.statusCode == 200) {
-        final token =
-            jsonDecode(
-              response.body,
-            )['token']; // Ajuste conforme a resposta do seu backend
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-        return token;
+        final responseData = jsonDecode(response.body);
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('token')) {
+          final token = responseData['token'];
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
+          return token;
+        } else {
+          throw Exception('Token não encontrado na resposta do servidor');
+        }
       } else {
         throw Exception(
           'Erro ao fazer login com Google: ${response.statusCode} - ${response.body}',
         );
       }
     } catch (e) {
-      print('Erro no login com Google: $e');
+      print('Erro detalhado no login com Google: $e');
       return null;
     }
   }
 
-  // Login com Apple
-  Future<String?> loginWithApple(String identityToken) async {
+  // Login com GitHub
+  Future<String?> loginWithGithub(String code) async {
     try {
-      final response = await http.post(
-        Uri.parse(
-          '$_baseUrl/apple-login',
-        ), // Endpoint do seu backend para Apple
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'identity_token': identityToken}),
+      print('Enviando requisição de login com GitHub...'); // Debug log
+      print('URL: $_baseUrl/github/login');
+      print('Code: $code');
+
+      final response = await http.get(
+        Uri.parse('$_baseUrl/github/login?code=$code'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
       );
+
       print(
-        'Apple Login - Status: ${response.statusCode}, Body: ${response.body}',
+        'Resposta do servidor GitHub: ${response.statusCode} - ${response.body}',
       );
+
+      if (response.statusCode == 503) {
+        print(
+          'Servidor temporariamente indisponível. Tentando novamente em 5 segundos...',
+        );
+        await Future.delayed(const Duration(seconds: 5));
+        return loginWithGithub(code); // Tenta novamente
+      }
+
       if (response.statusCode == 200) {
-        final token =
-            jsonDecode(
-              response.body,
-            )['token']; // Ajuste conforme a resposta do seu backend
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-        return token;
+        final responseData = jsonDecode(response.body);
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('token')) {
+          final token = responseData['token'];
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
+          return token;
+        } else {
+          throw Exception('Token não encontrado na resposta do servidor');
+        }
       } else {
         throw Exception(
-          'Erro ao fazer login com Apple: ${response.statusCode} - ${response.body}',
+          'Erro ao fazer login com GitHub: ${response.statusCode} - ${response.body}',
         );
       }
     } catch (e) {
-      print('Erro no login com Apple: $e');
+      print('Erro detalhado no login com GitHub: $e');
       return null;
     }
   }

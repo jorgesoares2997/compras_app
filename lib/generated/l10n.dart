@@ -403,6 +403,42 @@ abstract class AppLocalizations {
   /// **'Manage Items'**
   String get manageItems;
 
+  /// No description provided for @addItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Item'**
+  String get addItem;
+
+  /// No description provided for @noItems.
+  ///
+  /// In en, this message translates to:
+  /// **'No items found'**
+  String get noItems;
+
+  /// No description provided for @errorLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading items'**
+  String get errorLoading;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @deleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Item deleted successfully'**
+  String get deleteSuccess;
+
+  /// No description provided for @deleteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error deleting item'**
+  String get deleteError;
+
   /// Title for scheduling a person for a specific date
   ///
   /// In en, this message translates to:
@@ -426,6 +462,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today\'s Schedule'**
   String get scheduleToday;
+
+  /// No description provided for @editItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Item'**
+  String get editItem;
+
+  /// No description provided for @equipmentUpdatedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment updated successfully'**
+  String get equipmentUpdatedSuccess;
+
+  /// No description provided for @updateEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Equipment'**
+  String get updateEquipment;
+
+  /// No description provided for @equipmentAddError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error adding equipment: {error}'**
+  String equipmentAddError(Object error);
 
   /// No description provided for @scheduleNotificationMessage.
   ///
@@ -546,12 +606,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Equipment added successfully!'**
   String get equipmentAddedSuccess;
-
-  /// No description provided for @equipmentAddError.
-  ///
-  /// In en, this message translates to:
-  /// **'Error adding equipment: {error}'**
-  String equipmentAddError(Object error);
 
   /// No description provided for @login.
   ///
