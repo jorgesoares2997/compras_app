@@ -102,13 +102,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get status => 'Status';
 
   @override
-  String get completed => 'Completed';
+  String get completed => 'Positive';
 
   @override
-  String get pending => 'Pending';
+  String get pending => 'Neutral';
 
   @override
-  String get inProgress => 'In Progress';
+  String get inProgress => 'Negative';
 
   @override
   String get selectStatus => 'Select a status';

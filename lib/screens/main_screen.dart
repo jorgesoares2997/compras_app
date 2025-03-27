@@ -39,36 +39,25 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(index: _selectedIndex, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.list),
-            label: localizations.viewItems,
-          ),
+          BottomNavigationBarItem(icon: const Icon(Icons.list), label: ''),
           BottomNavigationBarItem(
             icon: const Icon(Icons.calendar_today),
-            label: localizations.calendar,
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.add_circle_outline),
-            label: localizations.add,
+            label: '',
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.bar_chart),
-            label: localizations.reports,
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.settings),
-            label: localizations.settings,
-          ),
+          BottomNavigationBarItem(icon: const Icon(Icons.bar_chart), label: ''),
+          BottomNavigationBarItem(icon: const Icon(Icons.settings), label: ''),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(
-          0xFF02732A,
-        ), // Cor do tema (verde escuro)
+        selectedItemColor: const Color(0xFF02732A),
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
-        type:
-            BottomNavigationBarType
-                .fixed, // Para 5 itens, evita animação de shift
+        type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
       ),
     );
   }

@@ -286,19 +286,19 @@ abstract class AppLocalizations {
   /// No description provided for @completed.
   ///
   /// In en, this message translates to:
-  /// **'Completed'**
+  /// **'Positive'**
   String get completed;
 
   /// No description provided for @pending.
   ///
   /// In en, this message translates to:
-  /// **'Pending'**
+  /// **'Neutral'**
   String get pending;
 
   /// No description provided for @inProgress.
   ///
   /// In en, this message translates to:
-  /// **'In Progress'**
+  /// **'Negative'**
   String get inProgress;
 
   /// No description provided for @selectStatus.
